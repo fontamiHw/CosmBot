@@ -1,0 +1,678 @@
+[
+  {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+    "name": "blackduck",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/blackduck/",
+    "color": "notbuilt",
+    "fullname": "blackduck"
+  },
+  {
+    "_class": "com.cloudbees.hudson.plugins.folder.Folder",
+    "name": "DAIGO_UPGRADE",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/DAIGO_UPGRADE/",
+    "jobs": [ 
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "DAIGO_UPG",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/DAIGO_UPGRADE/job/DAIGO_UPG/",
+        "color": "blue"
+      },
+      {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "DAIGO_UPG_02",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/DAIGO_UPGRADE/job/DAIGO_UPG_02/",
+        "color": "blue"
+      },
+      {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "DAIGO_UPG_04",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/DAIGO_UPGRADE/job/DAIGO_UPG_04/",
+        "color": "blue"
+      },
+      {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "DAIGO_UPG_05",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/DAIGO_UPGRADE/job/DAIGO_UPG_05/",
+        "color": "blue"
+      }
+    ],
+    "fullname": "DAIGO_UPGRADE"
+  },
+  {
+    "_class": "org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject",
+    "name": "es-admin-plane",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/",
+    "jobs": [
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-357",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/PR-357/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-358",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/PR-358/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-359",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/PR-359/",
+        "color": "disabled"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "bugfix%2FGACRUX-12989-sw-activate-12.2-to-12.3-build-270-failed-randomly",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/bugfix%252FGACRUX-12989-sw-activate-12.2-to-12.3-build-270-failed-randomly/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGAC-1912-lgumier-socks-server-move-to-the-adminplane-repository",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/feature%252FGAC-1912-lgumier-socks-server-move-to-the-adminplane-repository/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGAC-2417-ap-java-17-support",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/feature%252FGAC-2417-ap-java-17-support/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGACRUX-13921-adminplane-define-an-abstraction-layer-for-supporting-both-docker-and-podman",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/feature%252FGACRUX-13921-adminplane-define-an-abstraction-layer-for-supporting-both-docker-and-podman/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGACRUX-14379-adminplane-hilight-in-the-stats-graphs-important-svo-events-activation-role",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/feature%252FGACRUX-14379-adminplane-hilight-in-the-stats-graphs-important-svo-events-activation-role/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "master",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/master/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r12.1.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/release%252Ftp-r12.1.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r12.2.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/release%252Ftp-r12.2.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r12.3.1.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/release%252Ftp-r12.3.1.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r12.3.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/release%252Ftp-r12.3.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r23.1.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/release%252Ftp-r23.1.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r23.2.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/release%252Ftp-r23.2.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r24.1.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/release%252Ftp-r24.1.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r24.3.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/release%252Ftp-r24.3.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "rrizzi%2FDockerfile-1659688894959",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/rrizzi%252FDockerfile-1659688894959/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "wip-12.4.0",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/es-admin-plane/job/wip-12.4.0/",
+        "color": "notbuilt"
+      }
+    ],
+    "fullname": "es-admin-plane"
+  },
+  {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+    "name": "genSim",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/genSim/",
+    "color": "red",
+    "fullname": "genSim"
+  },
+  {
+    "_class": "com.cloudbees.hudson.plugins.folder.Folder",
+    "name": "HOST_CLEANUP",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/HOST_CLEANUP/",
+    "jobs": [
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "HOST_CLEANUP",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/HOST_CLEANUP/job/HOST_CLEANUP/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "HOST_CLEANUP_01",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/HOST_CLEANUP/job/HOST_CLEANUP_01/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "HOST_CLEANUP_02",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/HOST_CLEANUP/job/HOST_CLEANUP_02/",
+        "color": "aborted"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "HOST_CLEANUP_04",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/HOST_CLEANUP/job/HOST_CLEANUP_04/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "HOST_CLEANUP_05",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/HOST_CLEANUP/job/HOST_CLEANUP_05/",
+        "color": "blue"
+      }
+    ],
+    "fullname": "HOST_CLEANUP"
+  },
+  {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+    "name": "KENDO-GRID-QUERY",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/KENDO-GRID-QUERY/",
+    "color": "blue",
+    "fullname": "KENDO-GRID-QUERY"
+  },
+  {
+    "_class": "com.cloudbees.hudson.plugins.folder.Folder",
+    "name": "NCS2K",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/",
+    "jobs": [
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "Test",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/Test/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "branch",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/branch/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "config_ver",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/config_ver/",
+        "color": "aborted"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "git_jenkins_test",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/git_jenkins_test/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "jenkins_artifact_upload",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/jenkins_artifact_upload/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "master",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/master/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "ncs2k-host_emulator",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/ncs2k-host_emulator/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "ncs2k-test",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/ncs2k-test/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "ncs2k_Emulator",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/ncs2k_Emulator/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "nightly",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/nightly/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "test-bitbucket-checkout-pipeline",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/test-bitbucket-checkout-pipeline/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "vault_config",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K/job/vault_config/",
+        "color": "blue"
+      }
+    ],
+    "fullname": "NCS2K"
+  },
+  {
+    "_class": "com.cloudbees.hudson.plugins.folder.Folder",
+    "name": "NCS2K_UPGRADE",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K_UPGRADE/",
+    "jobs": [
+      {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "NCS2K_209_Upgrade",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K_UPGRADE/job/NCS2K_209_Upgrade/",
+        "color": "blue"
+      },
+      {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "NCS2K_63_Upgrade",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NCS2K_UPGRADE/job/NCS2K_63_Upgrade/",
+        "color": "blue"
+      }
+    ],
+    "fullname": "NCS2K_UPGRADE"
+  },
+  {
+    "_class": "com.cloudbees.hudson.plugins.folder.Folder",
+    "name": "NSO_UPGRADE",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NSO_UPGRADE/",
+    "jobs": [
+      {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "NSO_UPG",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NSO_UPGRADE/job/NSO_UPG/",
+        "color": "blue"
+      },
+      {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "NSO_UPG_02",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NSO_UPGRADE/job/NSO_UPG_02/",
+        "color": "blue"
+      },
+      {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "NSO_UPG_04",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NSO_UPGRADE/job/NSO_UPG_04/",
+        "color": "blue"
+      },
+      {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "NSO_UPG_05",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/NSO_UPGRADE/job/NSO_UPG_05/",
+        "color": "blue"
+      }
+    ],
+    "fullname": "NSO_UPGRADE"
+  },
+  {
+    "_class": "org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject",
+    "name": "PR-KENDO-GRID-QUERY",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/PR-KENDO-GRID-QUERY/",
+    "jobs": [
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/PR-KENDO-GRID-QUERY/job/PR-11/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "bugfix%2FGACRUX-16077-table-checkbox-issue",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/PR-KENDO-GRID-QUERY/job/bugfix%252FGACRUX-16077-table-checkbox-issue/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "trunk",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/PR-KENDO-GRID-QUERY/job/trunk/",
+        "color": "aborted"
+      }
+    ],
+    "fullname": "PR-KENDO-GRID-QUERY"
+  },
+  {
+    "_class": "com.cloudbees.hudson.plugins.folder.Folder",
+    "name": "RELEASES",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/RELEASES/",
+    "jobs": [
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "__test-nightly-with-dev-branch",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/RELEASES/job/__test-nightly-with-dev-branch/",
+        "color": "aborted"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "master",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/RELEASES/job/master/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "tp-r23.1.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/RELEASES/job/tp-r23.1.x/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "tp-r23.2.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/RELEASES/job/tp-r23.2.x/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "tp-r24.1.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/RELEASES/job/tp-r24.1.x/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "tp-r24.3.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/RELEASES/job/tp-r24.3.x/",
+        "color": "blue"
+      }
+    ],
+    "fullname": "RELEASES"
+  },
+  {
+    "_class": "hudson.model.FreeStyleProject",
+    "name": "SimulNcs10xx",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/SimulNcs10xx/",
+    "color": "blue",
+    "fullname": "SimulNcs10xx"
+  },
+  {
+    "_class": "org.jenkinsci.plugins.workflow.multibranch.WorkflowMultiBranchProject",
+    "name": "svo_multibranch",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/",
+    "jobs": [
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "GAC-3102-rename-svo",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/GAC-3102-rename-svo/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-10671",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-10671/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11057",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11057/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11081",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11081/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11091",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11091/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11107",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11107/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11108",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11108/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11124",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11124/",
+        "color": "disabled"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11127",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11127/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11132",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11132/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11133",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11133/",
+        "color": "disabled"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11134",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11134/",
+        "color": "disabled"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11135",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11135/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11136",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11136/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11137",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11137/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11138",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11138/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "PR-11139",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/PR-11139/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "bugfix%2FBUG-244794-web-ui-the-lldp-config-status-on-the-eth-interface-is-not-in-line-",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/bugfix%252FBUG-244794-web-ui-the-lldp-config-status-on-the-eth-interface-is-not-in-line-/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "bugfix%2FBUG-247409-cosm-alarm-correlation-correlation-not-working-for-otu-coherentdsp-objects-in-txp",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/bugfix%252FBUG-247409-cosm-alarm-correlation-correlation-not-working-for-otu-coherentdsp-objects-in-txp/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "bugfix%2FBUG-248892-installation-of-svo-controller-overwriting-etc-sudoers-of-os",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/bugfix%252FBUG-248892-installation-of-svo-controller-overwriting-etc-sudoers-of-os/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "bugfix%2FBUG-249662-after-removing-ncs2k-device-hosting-the-svo-lc-svo-lc-is-not-removed",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/bugfix%252FBUG-249662-after-removing-ncs2k-device-hosting-the-svo-lc-svo-lc-is-not-removed/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "bugfix%2FGAC-3508-nfv-deadloop-on-teardown-middleware",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/bugfix%252FGAC-3508-nfv-deadloop-on-teardown-middleware/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGAC-122-test",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/feature%252FGAC-122-test/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGAC-1697-netsim-multiversioning_14_11_2024",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/feature%252FGAC-1697-netsim-multiversioning_14_11_2024/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGAC-1768-cscwj25393-cosm-card-mode-deletion",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/feature%252FGAC-1768-cscwj25393-cosm-card-mode-deletion/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGAC-2014-svo-introducing-nso-6.1.11-and-Java17",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/feature%252FGAC-2014-svo-introducing-nso-6.1.11-and-Java17/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGAC-2058-tp",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/feature%252FGAC-2058-tp/",
+        "color": "disabled_anime"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGAC-2651",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/feature%252FGAC-2651/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "feature%2FGAC-2715-gatekeeper-bind-gatekeeper-services-to-gknet-address-172.18.0.1",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/feature%252FGAC-2715-gatekeeper-bind-gatekeeper-services-to-gknet-address-172.18.0.1/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "master",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/master/",
+        "color": "blue"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r23.1.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/release%252Ftp-r23.1.x/",
+        "color": "red"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r23.2.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/release%252Ftp-r23.2.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r24.1.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/release%252Ftp-r24.1.x/",
+        "color": "notbuilt"
+      },
+      {
+        "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+        "name": "release%2Ftp-r24.3.x",
+        "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/job/release%252Ftp-r24.3.x/",
+        "color": "notbuilt"
+      }
+    ],
+    "fullname": "svo_multibranch"
+  },
+  {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+    "name": "SVO_PACK",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/SVO_PACK/",
+    "color": "blue",
+    "fullname": "SVO_PACK"
+  },
+  {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+    "name": "SVO_PACK_RELEASE",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/SVO_PACK_RELEASE/",
+    "color": "red",
+    "fullname": "SVO_PACK_RELEASE"
+  },
+  {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+    "name": "TEST",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/TEST/",
+    "color": "blue",
+    "fullname": "TEST"
+  },
+  {
+    "_class": "hudson.model.FreeStyleProject",
+    "name": "test-bitbucket-checkout",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/test-bitbucket-checkout/",
+    "color": "blue",
+    "fullname": "test-bitbucket-checkout"
+  },
+  {
+    "_class": "org.jenkinsci.plugins.workflow.job.WorkflowJob",
+    "name": "testCoronaScan",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/testCoronaScan/",
+    "color": "blue",
+    "fullname": "testCoronaScan"
+  },
+  {
+    "_class": "hudson.model.FreeStyleProject",
+    "name": "XR_COPY_IMAGE",
+    "url": "https://engci-private-gpk.cisco.com/jenkins/svo/job/XR_COPY_IMAGE/",
+    "color": "red",
+    "fullname": "XR_COPY_IMAGE"
+  }
+]
