@@ -10,3 +10,7 @@ cp ../resources/config.yaml resources
 echo "Docker image generating"
 docker build -t my-python-app .
 
+echo "clean docker paths"
+rm -rf resources/*
+rm -rf app/*
+
