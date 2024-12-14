@@ -51,12 +51,12 @@ def create_db(config):
 def init_bot(config):
     api = WebexTeamsAPI(access_token=config['webexBot']['token'])   
     
-    # (Optional) Proxy configuration
-    # Supports https or wss proxy, wss prioritized.
-    proxies = {
-        'https': 'http://proxy.esl.cisco.com:80',
-        'wss': 'socks5://proxy.esl.cisco.com:1080'
-    }
+    proxies=None
+    if config['webexBot']['proxy']['required']:
+        # (Optional) Proxy configuration
+        # Supports https or wss proxy, wss prioritized.
+        proxies = config['webexBot']['proxy']['proxies']
+        log.info(f" Proxies:{proxies}")
     
     # Create a Bot Object
     bot = WebexBot(teams_bot_token=config['webexBot']['token'],
