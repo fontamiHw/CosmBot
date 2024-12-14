@@ -84,9 +84,13 @@ def stop(self):
     thread.join()
     
       
+start=False      
 # Load configuration from YAML file
-with open('../resources/config.yaml', 'r') as file:
-    config = yaml.safe_load(file)
+while not start:       
+    time.sleep(5)
+    with open('../resources/config.yaml', 'r') as file:
+        config = yaml.safe_load(file)
+        start = config['start']
     
 usersDb, prDb, servers_db= create_db(config['database'])
 bot, api = init_bot(config)

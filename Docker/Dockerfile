@@ -27,7 +27,7 @@ RUN pip install --no-cache-dir webex-bot[proxy]
 EXPOSE 80
 
 # Define environment variable
-ENV NAME=World
+ENV NAME="Cosm Bot"
 
 # Make sure the script is executable
 RUN chmod +x /app/run.sh

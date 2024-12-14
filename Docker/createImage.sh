@@ -8,7 +8,7 @@ mkdir -p resources
 cp ../resources/config.yaml resources
 
 echo "Docker image generating"
-docker build -t my-python-app .
+docker build -t cosm-bot .
 
 echo "clean docker paths"
 rm -rf resources/*
