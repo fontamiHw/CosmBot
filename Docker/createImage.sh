@@ -4,8 +4,8 @@ cp -R ../src/* app/.
 
 
 echo "coping the configuration yaml file"
-mkdir -p resources
-cp ../resources/config.yaml resources
+mkdir -p host/resources
+cp ../host/resources/config.yaml resources
 
 echo "Docker image generating"
 docker build -t cosm-bot .

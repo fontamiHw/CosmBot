@@ -2,7 +2,6 @@ import os
 import time
 import logger
 import threading
-import yaml
 
 from cosm.sanity import Sanity
 from db.servers import Servers
@@ -19,21 +18,19 @@ from webexteamssdk import WebexTeamsAPI
 
 log = logger.getLogger()
 class CosmBot (object):
-    def __init__(self, webServer):
+    def __init__(self, webServer, config):
         self.webserver = webServer
-        self.main_thread = threading.Thread(target=self.main_run)
-        self.main_stop_event = threading.Event()
-        self.main_thread.start()
+        self.config = config
+        log.info("CosmBot - created")
         
-    def main_run(self):
-        start=False      
-        # Load configuration from YAML file
-        while not start:       
-            time.sleep(5)
-            with open('../resources/config.yaml', 'r') as file:
-                self.config = yaml.safe_load(file)
-                start = self.config['start']
+        
+    def bot_start(self):
+        log.info("CosmBot - start")
     
+        db_path = self.config['database']['directory']
+        if not os.path.exists(db_path):
+            os.makedirs(db_path)
+            log.info(f"Directory created: {db_path}")
         usersDb, self.prDb, self.servers_db= self.create_db(self.config['database'])
         self.bot, self.api = self.init_bot()
         self.user = User(self.bot, self.api, usersDb, self.prDb, self.servers_db)

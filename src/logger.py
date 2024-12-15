@@ -1,10 +1,16 @@
 import logging
+import os
+import yaml
+
 
 log = logging.getLogger("builderProcess")
 log.setLevel(logging.INFO)
 
+with open(f"{os.environ['RESOURCE_PATH']}/config.yaml", 'r') as file:
+    config = yaml.safe_load(file)
+                
 # Create a file handler
-handler = logging.FileHandler('../logfile.log')
+handler = logging.FileHandler(f"{os.environ['APPLOGS']}/{config['logs']['webex-log']}")
 handler.setLevel(logging.INFO)
 
 # Create a logging format

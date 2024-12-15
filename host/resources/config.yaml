@@ -1,6 +1,6 @@
 start: True
 database:
-  directory: "./"
+  directory: "./database"
   users:    
     dbname: "users.db"
   servers:  
@@ -9,10 +9,13 @@ database:
     dbname: "pr.db"
   
 pr:
-   polling: 10
-   gitServer:
-      timeout: 60
-      project: "GAC"
+  polling: 10
+  gitServer:
+    timeout: 60
+    project: "GAC"
+
+logs:
+  webex-log: "Cosm-logfile.log"
 
 webexBot:
    token: "NGE1Mjg5NmItZmMyOS00YWI2LThiZTItNDgyZGZlZjA2Zjk2YzY4YTY2NjQtZmU4_PF84_1eb65fdf-9643-417f-9974-ad72cae0e10f"

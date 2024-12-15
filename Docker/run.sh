@@ -12,4 +12,5 @@ echo "python version is"
 python --version
 
 echo "Cosm Webex Starting....."
-python3 CosmBot.py
+#python3 CosmBot.py
+fastapi dev main.py
