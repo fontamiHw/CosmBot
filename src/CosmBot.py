@@ -9,7 +9,6 @@ from db.servers import Servers
 from db.pr import Pr
 from db.users import Users
 from servers.git.bitbucket import Git
-from servers.web.webserver  import  WebServer
 from servers.jenkins.jenkins import EventProcessor
 from servers.prPolling import PrPolling
 from users.users import User
@@ -20,7 +19,8 @@ from webexteamssdk import WebexTeamsAPI
 
 log = logger.getLogger()
 class CosmBot (object):
-    def __init__(self):
+    def __init__(self, webServer):
+        self.webserver = webServer
         self.main_thread = threading.Thread(target=self.main_run)
         self.main_stop_event = threading.Event()
         self.main_thread.start()
@@ -65,8 +65,8 @@ class CosmBot (object):
         self.task = PrPolling(self.user, config['pr'], sanity)
         self.task.start()
     
-        web = WebServer(jenkins_event)
-        web.start()
+        self.webserver.add_event_processor(jenkins_event)
+        
     
     def create_db(self, config):
         # Get the directory from the configuration
