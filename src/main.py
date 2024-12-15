@@ -11,18 +11,17 @@ from servers.web.fastapiServer import WebServer
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print(f"lifespan started")  
+    print(f"\n\n\n\nlifespan started   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\n\n")  
     
     main_thread = threading.Thread(target=main_run)
     main_stop_event = threading.Event()
     main_thread.start()
     yield
-    print(f"lifespan completed")
+    print(f"\n\n\n\nlifespan completed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n\n\n\n")  
 
 def main_run():
-    webServer = WebServer(app)
-    cosm_bot = CosmBot(webServer, config) 
     cosm_bot.bot_start()
+    pass
 
 
 start=False      
@@ -37,3 +36,5 @@ while not start:
         start = config['start']
                 
 app = FastAPI(lifespan=lifespan)
+webServer = WebServer(app)
+cosm_bot = CosmBot(webServer, config) 

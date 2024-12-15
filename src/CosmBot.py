@@ -46,7 +46,7 @@ class CosmBot (object):
         self.main_stop_event.set()
         self.main_thread.join()        
     
-    def run(self):
+    def run(self): 
         while not self.user.is_system_ready():
             time.sleep(20)
 
@@ -62,7 +62,8 @@ class CosmBot (object):
         self.task = PrPolling(self.user, config['pr'], sanity)
         self.task.start()
     
-        self.webserver.add_event_processor(jenkins_event)
+        if self.webserver:
+            self.webserver.add_event_processor(jenkins_event)
         
     
     def create_db(self, config):

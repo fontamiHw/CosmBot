@@ -12,7 +12,9 @@ class WebServer:
     def setup_routes(self):
         @self.app.get("/predict")
         async def predict(x: float):
-            return {"result": 85}
+            y = x*4
+            return {"result": y}
+            
             
         # @self.app.post('/pr')
         # def receive_json():
