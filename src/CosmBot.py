@@ -19,87 +19,91 @@ from webexteamssdk import WebexTeamsAPI
 
 
 log = logger.getLogger()
+class CosmBot (object):
+    def __init__(self):
+        self.main_thread = threading.Thread(target=self.main_run)
+        self.main_stop_event = threading.Event()
+        self.main_thread.start()
+        
+    def main_run(self):
+        start=False      
+        # Load configuration from YAML file
+        while not start:       
+            time.sleep(5)
+            with open('../resources/config.yaml', 'r') as file:
+                self.config = yaml.safe_load(file)
+                start = self.config['start']
+    
+        usersDb, self.prDb, self.servers_db= self.create_db(self.config['database'])
+        self.bot, self.api = self.init_bot()
+        self.user = User(self.bot, self.api, usersDb, self.prDb, self.servers_db)
 
-def start_servers(config, bot, api, git, jenkins_event, sanity):    
-    task = PrPolling(user, config['pr'], sanity)
-    task.start()
+        self.thread = threading.Thread(target=self.run)
+        self.stop_event = threading.Event()
+        self.thread.start()
+        log.info("Bot started")
+        # Call `run` for the bot to wait for incoming messages.
+        self.bot.run()
     
-    web = WebServer(jenkins_event)
-    web.start()
+    def main_stop(self):
+        self.main_stop_event.set()
+        self.main_thread.join()        
+    
+    def run(self):
+        while not self.user.is_system_ready():
+            time.sleep(20)
 
-def test(data):
-    log.info(f"from server arrived {data}")
+        self.git = Git(self.config['pr']['gitServer'], self.user, 
+                       self.servers_db.query_server_data_by_user_name_and_type(self.user.get_admin(), Servers.GIT) )
+        jenkins_event = EventProcessor(self.user, self.prDb)
+        sanity = Sanity(self.bot, self.api, self.prDb, 
+                        self.git, jenkins_event, self.user)
+        self.start_servers(self.config, self.bot, self.api, 
+                      self.git, jenkins_event, sanity)   
+        
+    def start_servers(self, config, bot, api, git, jenkins_event, sanity):    
+        self.task = PrPolling(self.user, config['pr'], sanity)
+        self.task.start()
     
-def create_db(config):    
-    # Get the directory from the configuration
-    db_directory = config['directory']
-    db_name = config['users']['dbname']
-    db_path = os.path.join(db_directory, db_name)
-    user_db = Users(db_path)
+        web = WebServer(jenkins_event)
+        web.start()
     
-    db_name = config['servers']['dbname']
-    db_path = os.path.join(db_directory, db_name)
-    servers_db = Servers(db_path)
+    def create_db(self, config):
+        # Get the directory from the configuration
+        db_directory = config['directory']
+        db_name = config['users']['dbname']
+        db_path = os.path.join(db_directory, db_name)
+        user_db = Users(db_path)
     
-    db_name = config['pr']['dbname']
-    db_path = os.path.join(db_directory, db_name)
-    pr = Pr(db_path)
+        db_name = config['servers']['dbname']
+        db_path = os.path.join(db_directory, db_name)
+        servers_db = Servers(db_path)
+
+        db_name = config['pr']['dbname']
+        db_path = os.path.join(db_directory, db_name)
+        pr = Pr(db_path)
     
-    return user_db, pr, servers_db
+        return user_db, pr, servers_db
     
     
-def init_bot(config):
-    api = WebexTeamsAPI(access_token=config['webexBot']['token'])   
+    def init_bot(self):
+        api = WebexTeamsAPI(access_token=self.config['webexBot']['token'])   
     
-    proxies=None
-    if config['webexBot']['proxy']['required']:
-        # (Optional) Proxy configuration
-        # Supports https or wss proxy, wss prioritized.
-        proxies = config['webexBot']['proxy']['proxies']
-        log.info(f" Proxies:{proxies}")
+        proxies=None
+        if self.config['webexBot']['proxy']['required']:
+            # (Optional) Proxy configuration
+            # Supports https or wss proxy, wss prioritized.
+            proxies = self.config['webexBot']['proxy']['proxies']
+            log.info(f" Proxies:{proxies}")
     
-    # Create a Bot Object
-    bot = WebexBot(teams_bot_token=config['webexBot']['token'],
+        # Create a Bot Object
+        bot = WebexBot(teams_bot_token=self.config['webexBot']['token'],
                    approved_domains=['cisco.com'],
-                   bot_name=config['webexBot']['name'],
+                   bot_name=self.config['webexBot']['name'],
                    include_demo_commands=True,
                    proxies=proxies)
-    return bot, api
-
-
-
-def run():
-    while not user.is_system_ready():
-        time.sleep(20)
-
-    git = Git(config['pr']['gitServer'], user, servers_db.query_server_data_by_user_name_and_type(user.get_admin(), Servers.GIT) )
-    jenkins_event = EventProcessor(user, prDb)
-    sanity = Sanity(bot, api, prDb, git, jenkins_event, user)
-    start_servers(config, bot, api, git, jenkins_event, sanity)    
-   
-
-
-def stop(self):
-    stop_event.set()
-    thread.join()
+        return bot, api
     
-      
-start=False      
-# Load configuration from YAML file
-while not start:       
-    time.sleep(5)
-    with open('../resources/config.yaml', 'r') as file:
-        config = yaml.safe_load(file)
-        start = config['start']
-    
-usersDb, prDb, servers_db= create_db(config['database'])
-bot, api = init_bot(config)
-user = User(bot, api, usersDb, prDb, servers_db)
-
-thread = threading.Thread(target=run)
-stop_event = threading.Event()
-thread.start()
-log.info("Bot started")
-# Call `run` for the bot to wait for incoming messages.
-bot.run()
-    
+    def stop(self):
+        self.stop_event.set()
+        self.thread.join()

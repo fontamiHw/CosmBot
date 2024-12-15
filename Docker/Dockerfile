@@ -9,13 +9,13 @@ WORKDIR /app
 RUN mkdir -p /app/resources
 RUN mkdir -p /app/CosmBot
 
-# Copy the system files
-COPY .enviroment /app
-COPY run.sh /app
 
-# Copy the current directory contents into the container at /app
-COPY app       /app/CosmBot
-COPY resources /app/resources
+# Download latest listing of available packages:
+RUN apt-get -y update
+# Upgrade already installed packages:
+RUN apt-get -y upgrade
+# Install a new package:
+RUN apt-get -y install syslog-ng vim net-tools 
 
 # Install any needed packages specified in requirements.txt
 # If you don't have any additional packages, you can skip this step
@@ -28,6 +28,14 @@ EXPOSE 80
 
 # Define environment variable
 ENV NAME="Cosm Bot"
+
+# Copy the system files
+COPY .enviroment /app
+COPY run.sh /app
+
+# Copy the current directory contents into the container at /app
+COPY app       /app/CosmBot
+COPY resources /app/resources
 
 # Make sure the script is executable
 RUN chmod +x /app/run.sh

@@ -19,7 +19,7 @@ webexBot:
    name: "COSM build"
    uniqueId: "Y2lzY29zcGFyazovL3VzL0FQUExJQ0FUSU9OL2YzMzk3MDAwLTUwN2MtNDg3Zi04ZDkyLWEyZDhiMjUwZThmYw"
    proxy:
-     required: True
+     required: False
      proxies:
        https: "http://proxy.esl.cisco.com:80"
        wss: "socks5://proxy.esl.cisco.com:1080"      
