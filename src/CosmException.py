@@ -1,0 +1,3 @@
+
+class CosmException(Exception):
+    pass

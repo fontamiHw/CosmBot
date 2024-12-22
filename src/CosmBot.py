@@ -13,15 +13,16 @@ from servers.prPolling import PrPolling
 from users.users import User
 from webex_bot.webex_bot import WebexBot
 from webexteamssdk import WebexTeamsAPI
+from servers.socket.client import Client
 
 
 
 log = logger.getLogger()
 class CosmBot (object):
-    def __init__(self, webServer, config):
-        self.webserver = webServer
+    def __init__(self, config):
         self.config = config
         log.info("CosmBot - created")
+        self.client = Client(config, log)
         
         
     def bot_start(self):
@@ -62,8 +63,8 @@ class CosmBot (object):
         self.task = PrPolling(self.user, config['pr'], sanity)
         self.task.start()
     
-        if self.webserver:
-            self.webserver.add_event_processor(jenkins_event)
+        if self.client:
+            self.client.add_jenkins(jenkins_event)
         
     
     def create_db(self, config):

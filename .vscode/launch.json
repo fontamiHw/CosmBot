@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "COSM-webex",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}${pathSeparator}src/main.py",
+            "console": "integratedTerminal",
+            "env": {
+                "APPLOGS": "./host/logs",
+                "RESOURCE_PATH": "./host/resources",
+                "PYTHONPATH": "${workspaceFolder}${pathSeparator}src"
+            }
+        }
+    ]
+}
