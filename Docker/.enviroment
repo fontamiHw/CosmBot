@@ -1,2 +1,0 @@
-export PYTHONPATH="/app/CosmBot"
-export PATH="/app/CosmBot:$PATH"

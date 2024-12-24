@@ -28,7 +28,7 @@ def main_run():
 start=False      
 # Load configuration from YAML file
 # Check if the directory exists, if not, create it
-directory_path = f"{os.environ['RESOURCE_PATH']}/config.yaml"       
+directory_path = f"{os.environ['RESOURCE_PATH']}/CosmWebex-config.yaml"       
             
 while not start:       
     time.sleep(5)

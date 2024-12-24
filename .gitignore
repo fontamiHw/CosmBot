@@ -2,3 +2,6 @@
 /Docker/resources
 **__pycache__/
 /host/logs/Cosm-logfile.log
+/Docker/host
+/database
+/host
