@@ -1,4 +1,6 @@
+
 export APPLOGS="./host/logs"
 export RESOURCE_PATH="./host/resources"
 
-fastapi dev src/main.py
+cp CosmWebex-config.yaml ${RESOURCE_PATH}/CosmWebex-config.yaml
+python3 src/main.py

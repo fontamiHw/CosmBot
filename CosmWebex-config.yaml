@@ -14,6 +14,13 @@ pr:
     timeout: 60
     project: "GAC"
 
+socket:
+  host: "192.168.1.75" 
+  port: 5000
+  secErrorWait: 60
+  maxRetryError: 3
+  maxConnect: 1 # at the moment only one is forced
+
 logs:
   webex-log: "Cosm-logfile.log"
 

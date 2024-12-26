@@ -1,6 +1,5 @@
 import os
 import time
-import logger
 import threading
 
 from cosm.sanity import Sanity
@@ -13,24 +12,26 @@ from servers.prPolling import PrPolling
 from users.users import User
 from webex_bot.webex_bot import WebexBot
 from webexteamssdk import WebexTeamsAPI
+from servers.socket.clientSocket import ClientSocket
 
 
 
-log = logger.getLogger()
+
 class CosmBot (object):
-    def __init__(self, webServer, config):
-        self.webserver = webServer
+    def __init__(self, config, log):
         self.config = config
-        log.info("CosmBot - created")
+        self.log = log
+        self.log.info("CosmBot - created")
+        self.client = ClientSocket(config['socket'], log)
         
         
     def bot_start(self):
-        log.info("CosmBot - start")
+        self.log.info("CosmBot - start")
     
         db_path = self.config['database']['directory']
         if not os.path.exists(db_path):
             os.makedirs(db_path)
-            log.info(f"Directory created: {db_path}")
+            self.log.info(f"Directory created: {db_path}")
         usersDb, self.prDb, self.servers_db= self.create_db(self.config['database'])
         self.bot, self.api = self.init_bot()
         self.user = User(self.bot, self.api, usersDb, self.prDb, self.servers_db)
@@ -38,7 +39,7 @@ class CosmBot (object):
         self.thread = threading.Thread(target=self.run)
         self.stop_event = threading.Event()
         self.thread.start()
-        log.info("Bot started")
+        self.log.info("Bot started")
         # Call `run` for the bot to wait for incoming messages.
         self.bot.run()
     
@@ -91,7 +92,7 @@ class CosmBot (object):
             # (Optional) Proxy configuration
             # Supports https or wss proxy, wss prioritized.
             proxies = self.config['webexBot']['proxy']['proxies']
-            log.info(f" Proxies:{proxies}")
+            self.log.info(f" Proxies:{proxies}")
     
         # Create a Bot Object
         bot = WebexBot(teams_bot_token=self.config['webexBot']['token'],
