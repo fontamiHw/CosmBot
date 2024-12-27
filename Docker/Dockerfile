@@ -30,6 +30,7 @@ RUN mkdir -p ${TMP_RESOURCE_PATH}
 
 # Copy the logrotate configuration file
 COPY CosmWebex-logrotate /etc/logrotate.d/cosmwebex
+RUN chmod 0444 /etc/logrotate.d/cosmwebex
 
 # Add a cron job to run logrotate at 2:00 AM every day
 RUN echo "0 2 * * * /usr/sbin/logrotate /etc/logrotate.d/cosmwebex" > /etc/cron.d/logrotate
