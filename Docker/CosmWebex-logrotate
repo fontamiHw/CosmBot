@@ -1,0 +1,15 @@
+# cosmfastapi-logrotate
+/app/host/logs/CosmWebex-logfile.log {
+    size 4M
+    daily
+    rotate 7
+    compress
+    delaycompress
+    missingok
+    notifempty
+    create 0640 root root
+    sharedscripts
+    postrotate
+        /usr/bin/systemctl reload syslog-ng > /dev/null 2>/dev/null || true
+    endscript
+}

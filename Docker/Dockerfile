@@ -10,7 +10,7 @@ RUN apt-get -y update
 # Upgrade already installed packages:
 RUN apt-get -y upgrade
 # Install a new package:
-RUN apt-get -y install syslog-ng vim net-tools iputils-ping
+RUN apt-get -y install syslog-ng vim net-tools iputils-ping logrotate cron
 
 # Define environment variable
 
@@ -28,8 +28,18 @@ RUN mkdir -p ${APP_COSM_PATH}
 # RUN mkdir -p ${APPLOGS}
 RUN mkdir -p ${TMP_RESOURCE_PATH}
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
+# Copy the logrotate configuration file
+COPY CosmWebex-logrotate /etc/logrotate.d/cosmwebex
+
+# Add a cron job to run logrotate at 2:00 AM every day
+RUN echo "0 2 * * * /usr/sbin/logrotate /etc/logrotate.d/cosmwebex" > /etc/cron.d/logrotate
+
+# Give execution rights on the cron job
+RUN chmod 0444 /etc/cron.d/logrotate
+
+# Apply cron job
+RUN crontab /etc/cron.d/logrotate
+ 
 
 # Install any needed packages specified in requirements.txt
 # If you don't have any additional packages, you can skip this step
