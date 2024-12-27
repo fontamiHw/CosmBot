@@ -1,11 +1,12 @@
 import socket, time
 import threading
+import logger 
 
 class ClientSocket:
 
-    def __init__(self, config, log):
+    def __init__(self, config):
         self.config = config
-        self.log = log
+        self.log = logger.getLogger("ClientSocket")  
         # Define the server address and port
         self.host = config['host'] # Replace with the server's IP address
         self.server_port = config['port']            # Replace with the server's port

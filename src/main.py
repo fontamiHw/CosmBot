@@ -1,10 +1,10 @@
 import os, time, yaml
-import logger
 from contextlib import asynccontextmanager
 from CosmBot import CosmBot
     
-    
-log = logger.getLogger()  
+
+import logger 
+log = logger.getLogger("main")  
 
 def main():
     start=False      
@@ -21,7 +21,7 @@ def main():
         time.sleep(60)
     
    
-    cosm_bot = CosmBot(config, log) 
+    cosm_bot = CosmBot(config) 
     cosm_bot.bot_start()
     # while True:
     #     time.sleep(60)

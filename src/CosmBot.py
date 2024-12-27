@@ -14,15 +14,15 @@ from webex_bot.webex_bot import WebexBot
 from webexteamssdk import WebexTeamsAPI
 from servers.socket.clientSocket import ClientSocket
 
-
+import logger 
 
 
 class CosmBot (object):
-    def __init__(self, config, log):
+    def __init__(self, config):
         self.config = config
-        self.log = log
+        self.log = logger.getLogger("CosmBot")  
         self.log.info("CosmBot - created")
-        self.client = ClientSocket(config['container_communication'], log)
+        self.client = ClientSocket(config['container_communication'])
         
         
     def bot_start(self):
