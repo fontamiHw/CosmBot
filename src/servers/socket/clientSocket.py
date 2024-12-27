@@ -18,15 +18,14 @@ class ClientSocket:
         self.max_connection = config['maxRetryError']
 
     def read_data(self):
-        while True:
+        connected = False
+        while not connected:
             try:
-                self.log.info(f"Connectiong {self.host}:{self.server_port}")
+                self.log.info(f"Connecting {self.host}:{self.server_port}")
                 # Connect the socket to the server's address and port
                 self.client_socket.connect((self.host, self.server_port))
-
-                # Receive data from the server
-                data = self.client_socket.recv(1024)
-                self.info.trace(f"Received: {data.decode('utf-8')}")
+                connected = True
+                self.log.info("Connected !!!!!!!!!!!!!")
 
             except Exception as e:
                 self.max_connection -= 1
@@ -36,3 +35,13 @@ class ClientSocket:
                     # Close the socket
                     self.client_socket.close()
                     self.log.info("Connection closed")
+                    return
+                    
+        while True:
+            self.log.info("Waiting data.....")
+            try:
+                # Receive data from the server
+                data = self.client_socket.recv(1024)
+                self.log.info(f"Received: {data.decode('utf-8')}")
+            except Exception as e:
+                self.log.error(f"Error due to : {e}.")

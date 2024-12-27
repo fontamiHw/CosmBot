@@ -22,7 +22,7 @@ class CosmBot (object):
         self.config = config
         self.log = log
         self.log.info("CosmBot - created")
-        self.client = ClientSocket(config['socket'], log)
+        self.client = ClientSocket(config['container_communication'], log)
         
         
     def bot_start(self):

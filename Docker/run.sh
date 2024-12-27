@@ -36,4 +36,5 @@ echo "moving in ${APP_COSM_PATH}"
 cd ${APP_COSM_PATH}
 pwd
 echo "Cosm Webex Starting....."
-python3 CosmBot.py
+python3 main.py
+#python3 clientTest.py
