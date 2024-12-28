@@ -23,8 +23,6 @@ def main():
    
     cosm_bot = CosmBot(config) 
     cosm_bot.bot_start()
-    # while True:
-    #     time.sleep(60)
                 
 if __name__ == "__main__":
     main()

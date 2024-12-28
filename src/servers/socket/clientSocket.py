@@ -29,7 +29,9 @@ class ClientSocket:
                 self.log.info("Connected !!!!!!!!!!!!!")
 
             except Exception as e:
-                self.max_connection -= 1
+                #decrement only if the config does not report -1 that measn infinite retry
+                if self.max_connection > 0:
+                    self.max_connection -= 1
                 self.log.error(f"connection failed due to : {e}. \n retry again {self.max_connection} time.")
                 time.sleep(self.config['secErrorWait'])
                 if self.max_connection == 0:
