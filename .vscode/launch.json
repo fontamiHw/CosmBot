@@ -14,7 +14,8 @@
                 "APPLOGS": "${workspaceFolder}${pathSeparator}host/logs",
                 "RESOURCE_PATH": "${workspaceFolder}${pathSeparator}host/resources",
                 "PYTHONPATH": "${workspaceFolder}${pathSeparator}src"
-            }
+            },
+            "preLaunchTask": "copy-config-files"
         }
     ]
 }

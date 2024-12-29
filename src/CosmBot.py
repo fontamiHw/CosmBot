@@ -22,7 +22,6 @@ class CosmBot (object):
         self.config = config
         self.log = logger.getLogger("CosmBot")  
         self.log.info("CosmBot - created")
-        self.client = ClientSocket(config['container_communication'])
         
         
     def bot_start(self):
@@ -48,12 +47,14 @@ class CosmBot (object):
         self.main_thread.join()        
     
     def run(self):
+
+        jenkins_event = EventProcessor(self.user, self.prDb)
+        self.client = ClientSocket(self.config['container_communication'], jenkins_event)
+        
         while not self.user.is_system_ready():
             time.sleep(20)
-
         self.git = Git(self.config['pr']['gitServer'], self.user, 
                        self.servers_db.query_server_data_by_user_name_and_type(self.user.get_admin(), Servers.GIT) )
-        jenkins_event = EventProcessor(self.user, self.prDb)
         sanity = Sanity(self.bot, self.api, self.prDb, 
                         self.git, jenkins_event, self.user)
         self.start_servers(self.config, self.bot, self.api, 
@@ -62,8 +63,6 @@ class CosmBot (object):
     def start_servers(self, config, bot, api, git, jenkins_event, sanity):    
         self.task = PrPolling(self.user, config['pr'], sanity)
         self.task.start()
-    
-        self.webserver.add_event_processor(jenkins_event)
         
     
     def create_db(self, config):

@@ -5,7 +5,7 @@ from users.users import UserException
 from servers.jenkins.jobEvent import process_job_event
 
 
-log = logger.getLogger()
+log = logger.getLogger("EventProcessor")
 class EventProcessor(object):
 
 
@@ -25,8 +25,9 @@ class EventProcessor(object):
             admin, url, path, token= self.users.get_jenkins_admin_data()
             self.server = jenkins.Jenkins(self.compose_url(url, path), username=admin, password=token)
             self.init=True
-        except UserException:
-            self.init=False       
+        except UserException as e:
+            self.init=False    
+            log.error(f"Error in jenkins server connection: {e}")   
 
         
     def event_received(self, event):

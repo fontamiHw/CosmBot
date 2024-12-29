@@ -1,15 +1,18 @@
 import socket, time
 import threading
 import logger 
+import json
 
 class ClientSocket:
 
-    def __init__(self, config):
+    def __init__(self, config, jenkins):
         self.config = config
         self.log = logger.getLogger("ClientSocket")  
         # Define the server address and port
         self.host = config['host'] # Replace with the server's IP address
         self.server_port = config['port']            # Replace with the server's port
+        
+        self.jenkins_processor = jenkins
 
         # Create a TCP/IP socket
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -44,7 +47,25 @@ class ClientSocket:
             self.log.info("Waiting data.....")
             try:
                 # Receive data from the server
-                data = self.client_socket.recv(1024)
-                self.log.info(f"Received: {data.decode('utf-8')}")
+                data = self.client_socket.recv(1024).decode('utf-8')                
+                self.log.info(f"Received: {data}")
+                
+                # prepare the data to be processed
+                data_json = json.loads(data)
+                command = data_json['command']
+                del data_json['command']
+                self.process_command(command, data_json)
+                
             except Exception as e:
                 self.log.error(f"Error due to : {e}.")
+                
+                
+    def process_command(self, command, data):        
+        match command:
+            case "pr":
+                self.jenkins_processor.event_received(data)
+                return
+            case "prFile":
+                return
+            case _:
+                self.log.error(f"Unknown command received: {command}")
