@@ -15,11 +15,11 @@ pr:
     project: "GAC"
 
 container_communication:
-  host: "10.58.1.10" 
+  host: "127.0.0.1" 
   port: 5000
   secErrorWait: 60
-  maxRetryError: 3  # -1  means infinite retry
-  maxConnect: 1     # at the moment only one is forced
+  maxRetryError: -1   # means infinite retry
+  maxConnect: 1       # at the moment only one is forced
 
 logs:
   webex-log: "Cosm-logfile.log"
