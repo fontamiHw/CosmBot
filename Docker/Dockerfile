@@ -10,7 +10,8 @@ RUN apt-get -y update
 # Upgrade already installed packages:
 RUN apt-get -y upgrade
 # Install a new package:
-RUN apt-get -y install syslog-ng vim net-tools iputils-ping logrotate cron
+RUN apt-get -y install syslog-ng vim net-tools iputils-ping 
+RUN apt-get -y install logrotate cron supervisor
 
 # Define environment variable
 
@@ -26,8 +27,6 @@ ENV APP_PR_FILES="${APP_ROOT_HOST}/pr"
 
 # Create a new directory under /app
 RUN mkdir -p ${APP_COSM_PATH}
-# RUN mkdir -p ${RESOURCE_PATH}
-# RUN mkdir -p ${APPLOGS}
 RUN mkdir -p ${TMP_RESOURCE_PATH}
 
 # Copy the logrotate configuration file
