@@ -4,6 +4,7 @@
 echo "Creating mounted directories"
 mkdir -p ${APPLOGS} 
 mkdir -p ${RESOURCE_PATH}
+mkdir -p ${APP_PR_FILES}
 
 ########### PREPARE CONFIG IN MOUNTED VOLUME ###########
 echo "move resource files int the mounted path"
