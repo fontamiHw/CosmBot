@@ -25,8 +25,12 @@ RUN chmod 0444 /etc/cron.d/logrotate
 # Apply cron job
 RUN crontab /etc/cron.d/logrotate
 
+# Copy the supervisor configuration file
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 # Copy the system files
 COPY run.sh ${APP_ROOT_PATH}
+COPY app-run.sh ${APP_ROOT_PATH}
 
 # Copy the current directory contents into the container at /app
 COPY app       ${APP_COSM_PATH}
@@ -34,6 +38,7 @@ COPY host/resources ${TMP_RESOURCE_PATH}
 
 # Make sure the script is executable
 RUN chmod +x ${APP_ROOT_PATH}/run.sh
+RUN chmod +x ${APP_ROOT_PATH}/app-run.sh
 
-# Run app.py when the container launches
+# Start supervisor
 CMD ["/app/run.sh"]
