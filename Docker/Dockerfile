@@ -40,5 +40,5 @@ COPY host/resources ${TMP_RESOURCE_PATH}
 RUN chmod +x ${APP_ROOT_PATH}/run.sh
 RUN chmod +x ${APP_ROOT_PATH}/app-run.sh
 
-# Start supervisor
+# Start supervisor from the script
 CMD ["/app/run.sh"]
