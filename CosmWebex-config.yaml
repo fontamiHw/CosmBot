@@ -1,6 +1,6 @@
 start: True
 database:
-  directory: "./database"
+  directory: "/app/database"
   users:    
     dbname: "users.db"
   servers:  
