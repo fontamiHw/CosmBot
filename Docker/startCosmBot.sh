@@ -5,17 +5,14 @@ export RESOURCE_PATH="${HOST}/resources"
 export APP_PR_FILES="${HOST}/pr"
 export SUPERVISOR_LOGS="${APPLOGS}/supervisord"
 
-echo ${SUPERVISOR_LOGS}
+mkdir -p ${HOST}
+rm -rf ${HOST}/*
 
 mkdir -p ${APPLOGS}
 mkdir -p ${RESOURCE_PATH}
 mkdir -p ${APP_PR_FILES}
 mkdir -p ${SUPERVISOR_LOGS}
-ls -laR ${HOST}
-rm -rf ${APPLOGS}/*.log
-rm -rf ${RESOURCE_PATH}/*.yaml
-rm -rf ${APP_PR_FILES}/*
-rm -rf ${SUPERVISOR_LOGS}/*.log
+
 cp ../CosmWebex-config.yaml ${RESOURCE_PATH}/CosmWebex-config.yaml
 
 
