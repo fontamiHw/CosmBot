@@ -56,13 +56,16 @@ class EventProcessor(object):
          }
         '''
         return_list = []
-        jobs = self.server.get_jobs()
-        log.debug(json.dumps(jobs, indent=2))
+        try:
+            jobs = self.server.get_jobs()
+            log.debug(json.dumps(jobs, indent=2))
         
-        for job in jobs:
-            job_data = self.get_job_data(job['name'])
-            new_dict = {"job": job['name'], "url": job['url'], "result": job_data}
-            return_list.append(new_dict)            
+            for job in jobs:
+                job_data = self.get_job_data(job['name'])
+                new_dict = {"job": job['name'], "url": job['url'], "result": job_data}
+                return_list.append(new_dict) 
+        except Exception as e:
+            log.warning(f"Cannot work with Jenkins server {e}")                    
         
         return return_list
     

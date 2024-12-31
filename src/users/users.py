@@ -4,6 +4,7 @@ from users.admin.administrators import Administrator
 from users.command.commandAdmin import RegisterServer
 from users.command.commandUsers import RegisterUser
 from webexteamssdk.api import people
+from cosmException import CosmException
 
 log = logger.getLogger()
 
@@ -100,12 +101,14 @@ class User(object):
         
         return admin, url, project, token
         
-    def register_in_server(self, server_name, url, path, user, token):    
-        # if self.servers_db.is_user_present(user) :
-        #     self.servers_db.update_server_user(user, url, path, token)
-        # else:
-        self.servers_db.insert_server_user(user, url, path, token, server_name)
-        log.info(f"registering {user} on {url} and path {path}")
+    def register_in_server(self, server_name, url, project, user, token):    
+        if self.servers_db.user_in_server(user, server_name) :
+            self.servers_db.update_server_user(user, url, project, token, server_name)
+        else:            
+            if not url or not server_name or not token:
+                raise CosmException(f"{user} has no server {server_name} configured. \n All the elements shall be compiled.")
+            self.servers_db.insert_server_user(user, url, project, token, server_name)
+            log.info(f"registering {user} on {url} and path {project}")
         
     def send_user_message(self, email, msg):
         self.api.messages.create(toPersonEmail=email, markdown=msg)

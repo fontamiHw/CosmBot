@@ -1,7 +1,8 @@
 import logger
 from db.db import DB
+from cosmException import CosmException
 
-log = logger.getLogger()
+log = logger.getLogger("servers")
 
 class Servers(DB):
     JENKINS="jenkins"
@@ -32,11 +33,39 @@ class Servers(DB):
             )
             ''')
 
-    # Function to check if a user is already present
-    def is_user_present(self, user_name):
+
+    def user_in_server(self, user_name, server_name):
+        """
+        Check if a user is present in a specific server.
+
+        Args:
+            user_name (str): The name of the user to check.
+            server_name (str): The name of the server to check.
+
+        Returns:
+            bool: True if the user is present in the server, False otherwise.
+        """
         cursor = self.execute_with_data('''
-        SELECT 1 FROM users WHERE user_name = ?
-        ''', (user_name,))
+        SELECT 1 FROM services WHERE user_name = ? AND type = ?
+        ''', (user_name, server_name))
+        present = cursor.fetchone()
+        return present is not None
+    
+    
+    
+    def is_user_present(self, user_name):
+        """
+        Check if a user is present in the database.
+
+        Args:
+            user_name (str): The name of the user to check.
+
+        Returns:
+            bool: True if the user is present, False otherwise.
+        """
+        cursor = self.execute_with_data('''
+        SELECT 1 FROM users WHERE user_name = ? 
+        ''', (user_name))
         present=cursor.fetchone()
         return present is not None
 
@@ -46,18 +75,21 @@ class Servers(DB):
             self.execute_with_data('''
             INSERT INTO users (user_name) VALUES (?)
             ''', (user_name,))
+            self.conn.commit()
 
     # Function to add a new service for a user
     def add_service(self, user_name, url, project, token, server_name):
         self.execute_with_data('''
         INSERT INTO services (type, url, user_name, project, token) VALUES (?, ?, ?, ?, ?)
-        ''', (server_name, url, user_name, project, token))
+        ''', (server_name, url, user_name, project, token))        
+        self.conn.commit()
 
     # Function to update the URL, project, and token for a specific service
-    def update_service(self, url, new_project, new_token):
+    def update_service(self, user_name, url, project, token, server_name):
         self.execute_with_data('''
-        UPDATE services SET project = ?, token = ? WHERE url = ?
-        ''', (new_project, new_token, url))
+        UPDATE services SET url = ?, project = ?, token = ? WHERE user_name = ? AND type = ?
+        ''', (url, project, token, user_name, server_name))       
+        self.conn.commit()
 
     # Function to get all services for a specific user
     def get_services_by_user(self, user_name):
@@ -66,12 +98,28 @@ class Servers(DB):
         ''', (user_name,))
         return cursor.fetchall()    
 
-    # old code 
+    # Function to insert user details
+    def update_server_user(self, user_name, url, project, token, server_name):
+        cursor = self.execute_with_data('''
+        SELECT * FROM services WHERE user_name = ? AND type = ?
+        ''', (user_name, server_name))
+        service = cursor.fetchone()
+        if service:
+            if not url:
+                url = service[1]
+            if not project:
+                project = service[3]
+            self.update_service(user_name, url, project, token, server_name)
+        else:
+            raise CosmException(f"Could not update the {user_name} config for server {server_name}.")
+        log.info(f"update the server user {user_name} with {url} {project} {token} {server_name}")
+        # self.add_user(user_name)
+        # self.add_service(user_name, url, project, token, server_name)
+        
     # Function to insert user details
     def insert_server_user(self, user_name, url, project, token, server_name):
         self.add_user(user_name)
         self.add_service(user_name, url, project, token, server_name)
-        self.conn.commit()
 
 
     # Function to query by user_name and type with partial match

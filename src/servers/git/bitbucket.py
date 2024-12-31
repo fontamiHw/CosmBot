@@ -23,12 +23,16 @@ class Git(object):
         # Retrieve the pull requests for the specified repository
         pull_requests = self.bitbucket.get_pull_requests(self.project_key, self.repo_slug, state='OPEN')
         openPr=0
-        # Print the pull requests information
-        for pr in pull_requests:
-            # Create a new dictionary with only the specified elements
-            filtered_dict = self.filter_dict(pr)
-            open_pull_requests.append(filtered_dict)
-            openPr += 1            
+        try :
+            # Print the pull requests information
+            for pr in pull_requests:
+                # Create a new dictionary with only the specified elements
+                filtered_dict = self.filter_dict(pr)
+                open_pull_requests.append(filtered_dict)
+                openPr += 1
+        except Exception as e:
+            log.warning(f"Cannot work with Git server {e}")            
+        
         return openPr, open_pull_requests
     
     def filter_dict(self, data):
