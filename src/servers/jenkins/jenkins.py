@@ -1,7 +1,7 @@
 import jenkins
 import json
 import logger
-from users.users import UserException
+from users.userException import UserException
 from servers.jenkins.jobEvent import process_job_event
 
 

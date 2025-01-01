@@ -3,7 +3,7 @@ import time
 import logger
 
 
-log = logger.getLogger()
+log = logger.getLogger("prPolling")
 
     
 

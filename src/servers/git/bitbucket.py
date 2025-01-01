@@ -3,7 +3,7 @@ import logger
 from db.servers import Servers
 
 
-log = logger.getLogger()
+log = logger.getLogger("bitbucket")
 class Git(object):
 
     def __init__(self, config, userDb, credential):        

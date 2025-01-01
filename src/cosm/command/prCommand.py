@@ -9,7 +9,7 @@ from webexteamssdk.models.cards import (AdaptiveCard, Choice, Choices, Column,
                                         TextBlock)
 from webexteamssdk.models.cards.actions import Submit
 
-log = logger.getLogger()
+log = logger.getLogger("prCommand")
 
 
 class PrRegister(Command):

@@ -63,10 +63,14 @@ class Servers(DB):
         Returns:
             bool: True if the user is present, False otherwise.
         """
-        cursor = self.execute_with_data('''
-        SELECT 1 FROM users WHERE user_name = ? 
-        ''', (user_name))
-        present=cursor.fetchone()
+        try:
+            cursor = self.execute_with_data('''
+            SELECT 1 FROM users WHERE user_name = ? 
+            ''', (user_name,))
+            present=cursor.fetchone()
+        except Exception as e:
+            log.error(f"Error checking if user {user_name} is present: {e}")
+            return False
         return present is not None
 
     # Function to add a new user

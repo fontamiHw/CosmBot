@@ -2,7 +2,7 @@ import logger
 from db.db import DB
 
 # 
-log = logger.getLogger()
+log = logger.getLogger("pr")
 class Pr(DB):
     def __init__(self, file):
         super().__init__(file)

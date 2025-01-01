@@ -2,7 +2,7 @@ from cosm.command.prCommand import PrRegister, PrStatus
 import logger
 
 
-log = logger.getLogger()
+log = logger.getLogger("sanity")
 class Sanity(object):
     '''
     classdocs

@@ -2,7 +2,7 @@ from db.db import DB
 import logger
 
 
-log = logger.getLogger()
+log = logger.getLogger("users")
 class Users(DB):
     def __init__(self, file):
         super().__init__(file)

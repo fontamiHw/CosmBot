@@ -5,11 +5,9 @@ from users.command.commandAdmin import RegisterServer
 from users.command.commandUsers import RegisterUser
 from webexteamssdk.api import people
 from cosmException import CosmException
+from users.userException import UserException
 
-log = logger.getLogger()
-
-class UserException(Exception):
-    pass
+log = logger.getLogger("users")
 
 class User(object):
 
@@ -47,7 +45,7 @@ class User(object):
             self.admin.add_admin(user_name)
             is_admin=True
         self.users_db.insert_user(user_name, email, name, admin)
-        return(f"registerd {user_name}. It is admin {is_admin}")        
+        return(f"registered {user_name}. It is admin {is_admin}")        
 
     def clean_removed_pr(self, prs):
         pr_ids = [f"PR-{pr_dict['id']}" for pr_dict in prs]
@@ -95,20 +93,29 @@ class User(object):
         if admin is None:
             raise UserException("No Jenkins admin found")
         data = self.servers_db.query_server_data_by_user_name_and_type(admin, Servers.JENKINS)
-        url = data[0][Servers.URL_POS]
-        project = data[0][Servers.PROJECT_POS]
-        token = data[0][Servers.TOKEN_POS]
+        try:
+            url = data[0][Servers.URL_POS]
+            project = data[0][Servers.PROJECT_POS]
+            token = data[0][Servers.TOKEN_POS]
+        except IndexError:
+            raise UserException(f"No Jenkins server configured for {admin}")
         
         return admin, url, project, token
         
     def register_in_server(self, server_name, url, project, user, token):    
+        msg=""
         if self.servers_db.user_in_server(user, server_name) :
+            log.info(f"{user} already in {server_name}, update with new values")
             self.servers_db.update_server_user(user, url, project, token, server_name)
-        else:            
+            msg = f"{user} updated in {server_name} with url {url} and project {project}"
+        else:     
+            log.info(f"{user} not in {server_name}, add it")       
             if not url or not server_name or not token:
                 raise CosmException(f"{user} has no server {server_name} configured. \n All the elements shall be compiled.")
-            self.servers_db.insert_server_user(user, url, project, token, server_name)
-            log.info(f"registering {user} on {url} and path {project}")
+            self.servers_db.insert_server_user(user, url, project, token, server_name) 
+            msg = f"{user} added in {server_name} with url {url} and project {project}"
+            
+        log.info(msg)
         
     def send_user_message(self, email, msg):
         self.api.messages.create(toPersonEmail=email, markdown=msg)

@@ -1,7 +1,7 @@
 import logger
 
 
-log = logger.getLogger()
+log = logger.getLogger("administrators")
 class Administrator(object):
 
     def __init__(self, api, users_db):

@@ -9,7 +9,7 @@ from webexteamssdk.models.cards.actions import Submit
 import logger
 
 
-log = logger.getLogger()
+log = logger.getLogger("commandUsers")
 def parse_string(input_string):
     parts = input_string.split()
     
