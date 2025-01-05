@@ -5,9 +5,6 @@ import logger
 
 log = logger.getLogger("prPolling")
 
-    
-
-
 class PrPolling:
     def __init__(self, user, config, sanity):
         self.interval = config['polling']  # Interval in seconds (600 seconds = 10 minutes)
@@ -42,3 +39,23 @@ class PrPolling:
     def stop(self):
         self.stop_event.set()
         self.thread.join()   
+
+class TokenPolling:
+    def __init__(self, user, expiration_days):
+        self.thread = threading.Thread(target=self.run)
+        self.stop_event = threading.Event()
+        self.user = user
+        self.expiration_days = expiration_days
+
+    def start(self):
+        self.thread.start()
+        
+    def run(self): 
+        log.info("TokenPolling started")  
+        while True:
+            try:  
+                log.debug("Check if some token is expiring")  
+                self.user.tokens_is_expiring(self.expiration_days)   
+                time.sleep(86400)  # 1 day in seconds      
+            except Exception as e:
+                log.error(f"Error in TokenPolling: {e}")

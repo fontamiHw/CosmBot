@@ -8,6 +8,7 @@ from webex_bot.formatting import quote_info, quote_danger
 from webexteamssdk.models.cards.actions import Submit
 import logger
 from cosmException import CosmException
+from datetime import datetime, timedelta
 
 
 log = logger.getLogger("commandAdmin")
@@ -16,6 +17,7 @@ class RegisterServer(Command):
     USER_ID="user"
     URL_ID="url"
     TOKEN_ID="token"
+    TOKEN_DURATION="token_duration"
     SERVER_ID="server_choice"
     GIT="git"
     JENKINS="jenkins"
@@ -41,7 +43,8 @@ class RegisterServer(Command):
         jobs_text = Text(id=RegisterServer.PROJECT, placeholder="the sub path for list of jobs (view/change-requests)")
         user_text = Text(id=RegisterServer.USER_ID, placeholder="type here the username", maxLength=30)
         token_text = Text(id=RegisterServer.TOKEN_ID, placeholder="type here the token")
-        input_column = Column(items=[url_text, jobs_text, user_text, token_text], width=2)
+        token_duration_text = Text(id=RegisterServer.TOKEN_DURATION, placeholder="type here the token duration time in days", value="30")
+        input_column = Column(items=[url_text, jobs_text, user_text, token_text, token_duration_text], width=2)
         
         choices = [
             Choice(title="Git Server", value=RegisterServer.GIT),
@@ -74,6 +77,15 @@ class ServerRegisterCB(Command):
         project = attachment_actions.inputs.get(RegisterServer.PROJECT)
         user = attachment_actions.inputs.get(RegisterServer.USER_ID)
         token = attachment_actions.inputs.get(RegisterServer.TOKEN_ID)
+        # calculate expiration date
+        token_duration = attachment_actions.inputs.get(RegisterServer.TOKEN_DURATION)
+        try:
+            token_duration_days = int(token_duration)
+        except ValueError:
+            return quote_danger("Token duration must be an integer.")
+        expiration_date = datetime.now() + timedelta(days=token_duration_days)
+        
+        log.info(f"Token for {user} will expire on {expiration_date}")
         server = attachment_actions.inputs.get(RegisterServer.SERVER_ID)
         log.info(f"Executing command for {user} in {server} with url {url} and project {project}")
         if not user or not type:
@@ -81,7 +93,7 @@ class ServerRegisterCB(Command):
         else:
             if self.users.is_admin(user):
                 try:
-                    self.users.register_in_server(server, url, project, user, token)
+                    self.users.register_in_server(server, url, project, user, token, expiration_date)
                 except CosmException as e:
                     msg = e.message
                     log.error(msg)

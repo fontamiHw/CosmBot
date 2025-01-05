@@ -1,23 +1,22 @@
 import logger
 from db.servers import Servers
-from users.admin.administrators import Administrator
+from users.administrators import Administrator
 from users.command.commandAdmin import RegisterServer
 from users.command.commandUsers import RegisterUser
 from webexteamssdk.api import people
 from cosmException import CosmException
 from users.userException import UserException
+from users.baseUser import BaseUser
 
 log = logger.getLogger("users")
 
-class User(object):
+class User(BaseUser):
 
     def __init__(self, bot, api, users_db, pr_db, servers_db):
-        self.servers_db = servers_db
+        super().__init__(api, users_db, servers_db)
         self.pr_db = pr_db
-        self.api = api
         self.bot = bot
-        self.users_db = users_db
-        self.admin = Administrator(api, users_db) 
+        self.admin = Administrator(api, users_db, servers_db) 
         self.add_commands()       
         
         for u in api.rooms.list():
@@ -102,22 +101,22 @@ class User(object):
         
         return admin, url, project, token
         
-    def register_in_server(self, server_name, url, project, user, token):    
+    def register_in_server(self, server_name, url, project, user, token, token_expiration):    
         msg=""
         if self.servers_db.user_in_server(user, server_name) :
             log.info(f"{user} already in {server_name}, update with new values")
-            self.servers_db.update_server_user(user, url, project, token, server_name)
+            self.servers_db.update_server_user(user, url, project, token, server_name, token_expiration)
             msg = f"{user} updated in {server_name} with url {url} and project {project}"
         else:     
             log.info(f"{user} not in {server_name}, add it")       
             if not url or not server_name or not token:
                 raise CosmException(f"{user} has no server {server_name} configured. \n All the elements shall be compiled.")
-            self.servers_db.insert_server_user(user, url, project, token, server_name) 
+            self.servers_db.insert_server_user(user, url, project, token, server_name, token_expiration) 
             msg = f"{user} added in {server_name} with url {url} and project {project}"
             
         log.info(msg)
         
-    def send_user_message(self, email, msg):
-        self.api.messages.create(toPersonEmail=email, markdown=msg)
+    def tokens_is_expiring(self, days):
+        self.admin.tokens_is_expiring(days)
         
         

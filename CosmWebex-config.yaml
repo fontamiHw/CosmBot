@@ -7,12 +7,15 @@ database:
     dbname: "server.db"
   pr:  
     dbname: "pr.db"
-  
-pr:
-  polling: 10
+
+servers:
+  token_expiration_days: 30     # days to send email that token is going to expire
   gitServer:
     timeout: 60
     project: "GAC"
+
+pr:
+  polling: 10
 
 container_communication:
   host: "10.58.1.10" 

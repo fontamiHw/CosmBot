@@ -7,12 +7,15 @@ database:
     dbname: "server.db"
   pr:  
     dbname: "pr.db"
-  
-pr:
-  polling: 10
+
+servers:
+  token_expiration_days: 32
   gitServer:
     timeout: 60
     project: "GAC"
+
+pr:
+  polling: 10
 
 container_communication:
   host: "127.0.0.1" 

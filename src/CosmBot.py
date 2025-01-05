@@ -8,7 +8,7 @@ from db.pr import Pr
 from db.users import Users
 from servers.git.bitbucket import Git
 from servers.jenkins.jenkins import EventProcessor
-from servers.prPolling import PrPolling
+from servers.prPolling import PrPolling, TokenPolling
 from users.users import User
 from webex_bot.webex_bot import WebexBot
 from webexteamssdk import WebexTeamsAPI
@@ -47,22 +47,28 @@ class CosmBot (object):
         self.main_thread.join()        
     
     def run(self):
-
+        ################  ONLY FOR TEST REMOVE  ###################
+        # will be started at start_servers method
+        self.pr_task = TokenPolling(self.user, self.config['servers']['token_expiration_days'])
+        self.pr_task.start()
+        ################  ONLY FOR TEST REMOVE  ###################
+        
         jenkins_event = EventProcessor(self.user, self.prDb)
         self.client = ClientSocket(self.config['container_communication'], jenkins_event)
         
         while not self.user.is_system_ready():
             time.sleep(20)
-        self.git = Git(self.config['pr']['gitServer'], self.user, 
+        self.git = Git(self.config['servers']['gitServer'], self.user, 
                        self.servers_db.query_server_data_by_user_name_and_type(self.user.get_admin(), Servers.GIT) )
         sanity = Sanity(self.bot, self.api, self.prDb, 
                         self.git, jenkins_event, self.user)
-        self.start_servers(self.config, self.bot, self.api, 
-                      self.git, jenkins_event, sanity)   
+        self.start_servers(sanity)   
         
-    def start_servers(self, config, bot, api, git, jenkins_event, sanity):    
-        self.task = PrPolling(self.user, config['pr'], sanity)
-        self.task.start()
+    def start_servers(self, sanity):    
+        self.pr_task = PrPolling(self.user, self.config['pr'], sanity)
+        self.pr_task.start()
+        self.pr_task = TokenPolling(self.user, self.config['servers']['token_expiration_days'])
+        self.pr_task.start()
         
     
     def create_db(self, config):

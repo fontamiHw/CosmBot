@@ -1,6 +1,7 @@
 import logger
 from db.db import DB
 from cosmException import CosmException
+from datetime import datetime, timedelta
 
 log = logger.getLogger("servers")
 
@@ -29,11 +30,34 @@ class Servers(DB):
             user_name TEXT NOT NULL,
             project TEXT NOT NULL,
             token TEXT NOT NULL,
+            date TEXT NOT NULL DEFAULT (datetime('now', '+30 days')),
             FOREIGN KEY (user_name) REFERENCES users(user_name)
             )
             ''')
 
+    def get_all_token_closer_expiration(self, threshold_days):
+        """
+        Get all services from the database.
 
+        Returns:
+            list: A list of dictionaries containing 'type', 'date', and 'user_name' for each service.
+        """
+        cursor = self.execute('SELECT type, date, user_name FROM services')
+        services = cursor.fetchall()
+        ret = []
+        for row in services:
+            user_name = row[2]
+            log.debug(f"Checking token expiration for {user_name}")
+            service_date = datetime.strptime(row[1], '%Y-%m-%d %H:%M:%S')
+            days_difference = (service_date - datetime.now()).days
+            if days_difference <= threshold_days:
+                log.debug(f"added {user_name} for server {row[0]}")
+                ret.append({'type': row[0], 'remaining_days': days_difference, 'user_name': user_name})
+            else:
+                log.debug(f"{user_name} has no token expiring soon")
+            
+        return ret
+   
     def user_in_server(self, user_name, server_name):
         """
         Check if a user is present in a specific server.
@@ -82,17 +106,17 @@ class Servers(DB):
             self.conn.commit()
 
     # Function to add a new service for a user
-    def add_service(self, user_name, url, project, token, server_name):
+    def add_service(self, user_name, url, project, token, server_name, token_expiration_str):
         self.execute_with_data('''
-        INSERT INTO services (type, url, user_name, project, token) VALUES (?, ?, ?, ?, ?)
-        ''', (server_name, url, user_name, project, token))        
+        INSERT INTO services (type, url, user_name, project, token, date) VALUES (?, ?, ?, ?, ?, ?)
+        ''', (server_name, url, user_name, project, token, token_expiration_str))        
         self.conn.commit()
 
     # Function to update the URL, project, and token for a specific service
-    def update_service(self, user_name, url, project, token, server_name):
+    def update_service(self, user_name, url, project, token, server_name, token_expiration):
         self.execute_with_data('''
-        UPDATE services SET url = ?, project = ?, token = ? WHERE user_name = ? AND type = ?
-        ''', (url, project, token, user_name, server_name))       
+        UPDATE services SET url = ?, project = ?, token = ? WHERE user_name = ? AND type = ? and date = ?
+        ''', (url, project, token, user_name, server_name, token_expiration))       
         self.conn.commit()
 
     # Function to get all services for a specific user
@@ -103,7 +127,7 @@ class Servers(DB):
         return cursor.fetchall()    
 
     # Function to insert user details
-    def update_server_user(self, user_name, url, project, token, server_name):
+    def update_server_user(self, user_name, url, project, token, server_name, token_expiration):
         cursor = self.execute_with_data('''
         SELECT * FROM services WHERE user_name = ? AND type = ?
         ''', (user_name, server_name))
@@ -113,7 +137,9 @@ class Servers(DB):
                 url = service[1]
             if not project:
                 project = service[3]
-            self.update_service(user_name, url, project, token, server_name)
+            if not token_expiration:
+                token_expiration = service[5]
+            self.update_service(user_name, url, project, token, server_name, token_expiration)
         else:
             raise CosmException(f"Could not update the {user_name} config for server {server_name}.")
         log.info(f"update the server user {user_name} with {url} {project} {token} {server_name}")
@@ -121,9 +147,10 @@ class Servers(DB):
         # self.add_service(user_name, url, project, token, server_name)
         
     # Function to insert user details
-    def insert_server_user(self, user_name, url, project, token, server_name):
+    def insert_server_user(self, user_name, url, project, token, server_name, token_expiration):
         self.add_user(user_name)
-        self.add_service(user_name, url, project, token, server_name)
+        token_expiration_str = token_expiration.strftime('%Y-%m-%d %H:%M:%S')
+        self.add_service(user_name, url, project, token, server_name, token_expiration_str)
 
 
     # Function to query by user_name and type with partial match
