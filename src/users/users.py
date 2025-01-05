@@ -105,6 +105,8 @@ class User(BaseUser):
         msg=""
         if self.servers_db.user_in_server(user, server_name) :
             log.info(f"{user} already in {server_name}, update with new values")
+            if token_expiration and not token:
+                raise CosmException(f"Cannot change expiration days without a new token")
             self.servers_db.update_server_user(user, url, project, token, server_name, token_expiration)
             msg = f"{user} updated in {server_name} with url {url} and project {project}"
         else:     
