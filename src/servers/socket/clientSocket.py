@@ -3,7 +3,7 @@ import threading
 import logger 
 import json
 from servers.socket.commands.prCommands import PrCommands
-from servers.socket.commands.prDebug import PrDebug
+from servers.socket.commands.debugCommands import DebugCommands
 
 class ClientSocket:
 
@@ -16,7 +16,7 @@ class ClientSocket:
         
         self.jenkins_processor = jenkins
         self.pr_commands = PrCommands(jenkins)
-        self.pr_debug = PrDebug(user_db)
+        self.pr_debug = DebugCommands(user_db)
 
         # Create a TCP/IP socket
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -64,8 +64,11 @@ class ClientSocket:
                 self.log.error(f"Error due to : {e}.")
                 
                 
-    def process_command(self, command, data):        
-        if "pr" in command:
+    def process_command(self, command, data):  
+        self.log.info(f"Received command: {command}") 
+        if "debug" in command:
+            self.pr_debug.process_command(command, data)     
+        elif "pr" in command:
             self.pr_commands.process_command(command, data)
         else:
             self.log.error(f"Unknown command received: {command}")
