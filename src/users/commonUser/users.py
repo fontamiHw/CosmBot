@@ -1,7 +1,6 @@
 import logger
 from db.servers import Servers
 from users.administrator.administrators import Administrator
-from users.administrator.commandAdmin import RegisterServer
 from users.commonUser.commandUsers import RegisterUser
 from webexteamssdk.api import people
 from cosmException import CosmException
@@ -13,11 +12,10 @@ log = logger.getLogger("users")
 class User(BaseUser):
 
     def __init__(self, bot, api, users_db, pr_db, servers_db):
-        super().__init__(api, users_db, servers_db)
+        super().__init__(api, users_db, servers_db, bot)
         self.pr_db = pr_db
-        self.bot = bot
-        self.admin = Administrator(api, users_db, servers_db) 
-        self.add_commands()       
+        self.admin = Administrator(api, users_db, servers_db, bot) 
+        self.add_command(RegisterUser(self))       
         
         for u in api.rooms.list():
             ids = u.title
@@ -31,12 +29,6 @@ class User(BaseUser):
                     log.info(f'Bot has user: {people}')
                     
             self.admin.notify_all("Bot restarted")
-                            
-                    
-    def add_commands(self):
-        #add any user command
-        self.bot.add_command(RegisterUser(self))
-        self.bot.add_command(RegisterServer(self))
                     
     def register_user(self, user_name, name, email, admin):
         is_admin = False

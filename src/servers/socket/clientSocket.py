@@ -2,10 +2,12 @@ import socket, time
 import threading
 import logger 
 import json
+from servers.socket.commands.prCommands import PrCommands
+from servers.socket.commands.prDebug import PrDebug
 
 class ClientSocket:
 
-    def __init__(self, config, jenkins):
+    def __init__(self, config, jenkins, user_db):
         self.config = config
         self.log = logger.getLogger("ClientSocket")  
         # Define the server address and port
@@ -13,6 +15,8 @@ class ClientSocket:
         self.server_port = config['port']            # Replace with the server's port
         
         self.jenkins_processor = jenkins
+        self.pr_commands = PrCommands(jenkins)
+        self.pr_debug = PrDebug(user_db)
 
         # Create a TCP/IP socket
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -53,7 +57,7 @@ class ClientSocket:
                 # prepare the data to be processed
                 data_json = json.loads(data)
                 command = data_json['command']
-                del data_json['command']
+                del data_json['command']  # remove all those elements are not part of data
                 self.process_command(command, data_json)
                 
             except Exception as e:
@@ -61,11 +65,7 @@ class ClientSocket:
                 
                 
     def process_command(self, command, data):        
-        match command:
-            case "pr":
-                self.jenkins_processor.event_received(data)
-                return
-            case "prFile":
-                return
-            case _:
-                self.log.error(f"Unknown command received: {command}")
+        if "pr" in command:
+            self.pr_commands.process_command(command, data)
+        else:
+            self.log.error(f"Unknown command received: {command}")

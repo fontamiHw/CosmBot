@@ -54,7 +54,7 @@ class CosmBot (object):
         ################  ONLY FOR TEST REMOVE  ###################
         
         jenkins_event = EventProcessor(self.user, self.prDb)
-        self.client = ClientSocket(self.config['container_communication'], jenkins_event)
+        self.client = ClientSocket(self.config['container_communication'], jenkins_event, self.user)
         
         while not self.user.is_system_ready():
             time.sleep(20)

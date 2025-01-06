@@ -1,13 +1,14 @@
 import logger
 from users.baseUser import BaseUser
-from db.servers import Servers
+from users.administrator.commandAdmin import RegisterServer
 
 log = logger.getLogger("administrators")
 class Administrator(BaseUser):
 
-    def __init__(self, api, users_db, servers_db):
-        super().__init__(api, users_db, servers_db)
-        self.admins = list()
+    def __init__(self, api, users_db, servers_db, bot):
+        super().__init__(api, users_db, servers_db, bot)
+        self.admins = list()        
+        self.add_command(RegisterServer(self))
                 
     def add_admin(self, admin):
         self.admins.append(admin)
