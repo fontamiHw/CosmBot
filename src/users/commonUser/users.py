@@ -1,8 +1,8 @@
 import logger
 from db.servers import Servers
-from users.administrators import Administrator
-from users.command.commandAdmin import RegisterServer
-from users.command.commandUsers import RegisterUser
+from users.administrator.administrators import Administrator
+from users.administrator.commandAdmin import RegisterServer
+from users.commonUser.commandUsers import RegisterUser
 from webexteamssdk.api import people
 from cosmException import CosmException
 from users.userException import UserException

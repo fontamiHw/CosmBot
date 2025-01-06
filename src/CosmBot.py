@@ -9,7 +9,7 @@ from db.users import Users
 from servers.git.bitbucket import Git
 from servers.jenkins.jenkins import EventProcessor
 from servers.prPolling import PrPolling, TokenPolling
-from users.users import User
+from users.commonUser.users import User
 from webex_bot.webex_bot import WebexBot
 from webexteamssdk import WebexTeamsAPI
 from servers.socket.clientSocket import ClientSocket
