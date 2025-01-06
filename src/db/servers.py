@@ -1,7 +1,7 @@
 import logger
 from db.db import DB
 from cosmException import CosmException
-from datetime import datetime, timedelta
+from datetime import datetime
 
 log = logger.getLogger("servers")
 
@@ -125,7 +125,14 @@ class Servers(DB):
         SELECT * FROM services WHERE user_name = ?
         ''', (user_name,))
         return cursor.fetchall()    
-
+    
+    # Function to get all data for a specific user and server type
+    def get_service_by_user_and_type(self, user_name, server_type):
+        cursor = self.execute_with_data('''
+        SELECT * FROM services WHERE user_name = ? AND type = ?
+        ''', (user_name, server_type))
+        return cursor.fetchall()
+    
     # Function to insert user details
     def update_server_user(self, user_name, url, project, token, server_name, token_expiration):
         cursor = self.execute_with_data('''

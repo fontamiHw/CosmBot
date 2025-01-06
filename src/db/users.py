@@ -69,3 +69,16 @@ class Users(DB):
         ''', (userId,))
         return result[0] if result else None
     
+    def get_all_users(self):
+        cursor = self.execute('SELECT * FROM users')
+        rows = cursor.fetchall()
+        users = []
+        for row in rows:
+            users.append({
+                "userId": row[0],
+                "email": row[1],
+                "fullName": row[2],
+                "admin": bool(row[3])
+            })
+        return users
+    

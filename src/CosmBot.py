@@ -58,8 +58,9 @@ class CosmBot (object):
         
         while not self.user.is_system_ready():
             time.sleep(20)
-        self.git = Git(self.config['servers']['gitServer'], self.user, 
-                       self.servers_db.query_server_data_by_user_name_and_type(self.user.get_admin(), Servers.GIT) )
+        # do not need all admins just take the first
+        self.git = Git(self.config['servers']['gitServer'], 
+                       self.servers_db.query_server_data_by_user_name_and_type(self.user.get_admins()[0], Servers.GIT) )
         sanity = Sanity(self.bot, self.api, self.prDb, 
                         self.git, jenkins_event, self.user)
         self.start_servers(sanity)   

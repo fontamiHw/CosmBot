@@ -6,7 +6,7 @@ from db.servers import Servers
 log = logger.getLogger("bitbucket")
 class Git(object):
 
-    def __init__(self, config, userDb, credential):        
+    def __init__(self, config, credential):        
         self.url = credential[0][Servers.URL_POS]
         self.user = credential[0][Servers.USER_NAME_POS]
         self.pwd = credential[0][Servers.TOKEN_POS]

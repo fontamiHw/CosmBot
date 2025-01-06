@@ -55,14 +55,17 @@ class User(BaseUser):
     def is_admin(self, user_name):
         return self.admin.is_admin(user_name)
     
-    def get_admin(self):
-        return self.admin.get_admin()
+    def get_admins(self):
+        return self.admin.get_admins()
+    
+    def get_users(self):
+        return self.users_db.get_all_users()
     
     def is_system_ready(self):
         '''
-        Starts the server if there is the admin and the config of thesame
+        Starts the server if there is at least one admin and the config of the same
         '''
-        admin = self.get_admin()
+        admin = self.get_admins()[0]
         if admin:
             data = self.servers_db.are_servers_configurated(admin)
             return data
@@ -80,7 +83,7 @@ class User(BaseUser):
             tuple: A tuple containing the admin's username, Jenkins URL, project, 
             and token.
         """
-        admin = self.admin.get_admin()
+        admin = self.admin.get_admins()[0]
         if admin is None:
             raise UserException("No Jenkins admin found")
         data = self.servers_db.query_server_data_by_user_name_and_type(admin, Servers.JENKINS)
@@ -110,6 +113,10 @@ class User(BaseUser):
             
         log.info(msg)
         
+    def get_server_data(self, server, admin): 
+        if self.is_admin(admin):
+           return self.admin.get_service_by_user(server, admin)
+            
     def tokens_is_expiring(self, days):
         self.admin.tokens_is_expiring(days)
         
