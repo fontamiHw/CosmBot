@@ -23,6 +23,7 @@ class DebugCommands(object):
                 self.log.info(f"processing data: {data}")
                 server_data = self.users.get_server_data(data['server'], data['admin'])
                 self.log.info(f"server data: {server_data}")
-                
+                return server_data
             case _:
                 self.log.error(f"Unknown command received: {command}")
+                return 

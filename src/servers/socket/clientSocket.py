@@ -58,7 +58,9 @@ class ClientSocket:
                 data_json = json.loads(data)
                 command = data_json['command']
                 del data_json['command']  # remove all those elements are not part of data
-                self.process_command(command, data_json)
+                send, data = self.process_command(command, data_json)
+                if send:
+                    self.client_socket.send(json.dumps(data).encode('utf-8'))
                 
             except Exception as e:
                 self.log.error(f"Error due to : {e}.")
@@ -66,9 +68,14 @@ class ClientSocket:
                 
     def process_command(self, command, data):  
         self.log.info(f"Received command: {command}") 
+        answer = {}
+        ret = False
         if "debug" in command:
-            self.pr_debug.process_command(command, data)     
+            answer = json.loads(self.pr_debug.process_command(command, data))
+            ret = True  
         elif "pr" in command:
             self.pr_commands.process_command(command, data)
         else:
             self.log.error(f"Unknown command received: {command}")
+
+        return ret, answer
