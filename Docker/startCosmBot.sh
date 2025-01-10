@@ -22,5 +22,5 @@ yaml_file="${RESOURCE_PATH}/CosmWebex-config.yaml"
 # Use yq to extract the value of 'port'
 CONTAINERCOMM_PORT=$(yq eval '.container_communication.port' "$yaml_file")
 
-echo "docker run -d --network Cosm-net --ip 10.58.1.11 -v /home/civico129/MyProject/COSM-webex/host:/app/host --mount type=volume,src=CosmVolume,dst=/app/database --name CosmBot cosm-bot"
-      docker run -d --network Cosm-net --ip 10.58.1.11 -v /home/civico129/MyProject/COSM-webex/host:/app/host --mount type=volume,src=CosmVolume,dst=/app/database --name CosmBot cosm-bot
+echo "docker run -d --network Cosm-net --hostname CosmBot -v /home/civico129/MyProject/COSM-webex/host:/app/host --mount type=volume,src=CosmVolume,dst=/app/database --name CosmBot cosm-bot"
+      docker run -d --network Cosm-net --hostname CosmBot  -v /home/civico129/MyProject/COSM-webex/host:/app/host --mount type=volume,src=CosmVolume,dst=/app/database --name CosmBot cosm-bot
