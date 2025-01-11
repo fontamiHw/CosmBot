@@ -4,6 +4,7 @@ import logger
 import json
 from servers.socket.commands.prCommands import PrCommands
 from servers.socket.commands.debugCommands import DebugCommands
+from servers.socket.commands.systemCommands import SystemCommands
 
 class ClientSocket:
 
@@ -17,6 +18,7 @@ class ClientSocket:
         self.jenkins_processor = jenkins
         self.pr_commands = PrCommands(jenkins)
         self.pr_debug = DebugCommands(user_db)
+        self.system_debug = SystemCommands(user_db)
 
         # Create a TCP/IP socket
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -72,10 +74,14 @@ class ClientSocket:
         ret = False
         if "debug" in command:
             answer = json.loads(self.pr_debug.process_command(command, data))
-            ret = True  
         elif "pr" in command:
             self.pr_commands.process_command(command, data)
+        elif "system" in command:
+            answer = self.system_debug.process_command(command, data)
         else:
             self.log.error(f"Unknown command received: {command}")
 
+        if answer:
+            ret = True
+            
         return ret, answer
