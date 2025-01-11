@@ -11,10 +11,10 @@ log = logger.getLogger("users")
 
 class User(BaseUser):
 
-    def __init__(self, bot, api, users_db, pr_db, servers_db):
+    def __init__(self, bot, api, users_db, pr_db, servers_db, token_config):
         super().__init__(api, users_db, servers_db, bot)
         self.pr_db = pr_db
-        self.admin = Administrator(api, users_db, servers_db, bot) 
+        self.admin = Administrator(api, users_db, servers_db, bot, token_config) 
         self.add_command(RegisterUser(self))       
         
         for u in api.rooms.list():

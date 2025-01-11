@@ -33,7 +33,7 @@ class CosmBot (object):
             self.log.info(f"Directory created: {db_path}")
         usersDb, self.prDb, self.servers_db= self.create_db(self.config['database'])
         self.bot, self.api = self.init_bot()
-        self.user = User(self.bot, self.api, usersDb, self.prDb, self.servers_db)
+        self.user = User(self.bot, self.api, usersDb, self.prDb, self.servers_db, self.config['servers']['token'])
 
         self.thread = threading.Thread(target=self.run)
         self.stop_event = threading.Event()
@@ -49,7 +49,7 @@ class CosmBot (object):
     def run(self):
         ################  ONLY FOR TEST REMOVE  ###################
         # will be started at start_servers method
-        self.pr_task = TokenPolling(self.user, self.config['servers']['token_expiration_days'])
+        self.pr_task = TokenPolling(self.user, self.config['servers']['token']['token_expiration_days'])
         self.pr_task.start()
         ################  ONLY FOR TEST REMOVE  ###################
         
@@ -68,7 +68,7 @@ class CosmBot (object):
     def start_servers(self, sanity):    
         self.pr_task = PrPolling(self.user, self.config['pr'], sanity)
         self.pr_task.start()
-        self.pr_task = TokenPolling(self.user, self.config['servers']['token_expiration_days'])
+        self.pr_task = TokenPolling(self.user, self.config['servers']['token']['token_expiration_days'])
         self.pr_task.start()
         
     

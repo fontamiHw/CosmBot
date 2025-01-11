@@ -6,10 +6,11 @@ import json
 log = logger.getLogger("administrators")
 class Administrator(BaseUser):
 
-    def __init__(self, api, users_db, servers_db, bot):
+    def __init__(self, api, users_db, servers_db, bot, token_config):
         super().__init__(api, users_db, servers_db, bot)
         self.admins = list()        
         self.add_command(RegisterServer(self))
+        self.refreshLinks = token_config['refreshLinks']
                 
     def add_admin(self, admin):
         self.admins.append(admin)
@@ -47,7 +48,11 @@ class Administrator(BaseUser):
             for token in admin_tokens:
                 log.debug(f"Token {token['type']} is expiring in {token['remaining_days']} days")
                 email = self.users_db.get_email_by_userId(admin)
-                link = f"https://bitbucket-eng-gpk1.cisco.com/bitbucket/plugins/servlet/access-tokens/users/{token['user_name']}/manage"
+                user_name = f"{token['user_name']}"
+                
+              
+                link = next((item['tokenLink'] for item in self.refreshLinks if item['name'] == token['type']), None)
+                link = link.replace("{user_name}", user_name)
                 title = f"# Your {token['type']} token is expiring in {token['remaining_days']} days\n"
                 message = f"It is urgent to [update your token]({link}). Please do it as soon as possible. \n\n"
                 command= f"When ready run the command `server config`\n and insert only the **{token['type']} server** , **username** and new **token**"

@@ -14,8 +14,14 @@ database:
     dbname: "pr.db"
 
 servers:
-  token_expiration_days: 30     # days to send chat that token is going to expire
-  gitServer:
+  token: 
+    token_expiration_days: 30     # days to send chat that token is going to expire
+    refreshLinks:
+      - name: "git"
+        tokenLink: "https://bitbucket-eng-gpk1.cisco.com/bitbucket/plugins/servlet/access-tokens/users/{user_name}/manage"
+      - name: "jenkins"
+        tokenLink: "https://jenkins-gpk1.cisco.com/user/{user_name}/configure"
+  gitServer:    
     timeout: 60
     project: "GAC"
 
