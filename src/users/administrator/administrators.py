@@ -47,8 +47,9 @@ class Administrator(BaseUser):
             for token in admin_tokens:
                 log.debug(f"Token {token['type']} is expiring in {token['remaining_days']} days")
                 email = self.users_db.get_email_by_userId(admin)
-                title = f"# Your token is expiring in {token['remaining_days']} days\n"
-                message = f"It is urgent to update your token. Please do it as soon as possible. \n\n"
+                link = f"https://bitbucket-eng-gpk1.cisco.com/bitbucket/plugins/servlet/access-tokens/users/{token['user_name']}/manage"
+                title = f"# Your {token['type']} token is expiring in {token['remaining_days']} days\n"
+                message = f"It is urgent to [update your token]({link}). Please do it as soon as possible. \n\n"
                 command= f"When ready run the command `server config`\n and insert only the **{token['type']} server** , **username** and new **token**"
                 self.send_user_message(email, f"{title} {message} {command}")
         
