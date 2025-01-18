@@ -73,7 +73,7 @@ class ClientSocket:
         answer = {}
         ret = False
         if "debug" in command:
-            answer = json.loads(self.pr_debug.process_command(command, data))
+            answer = self.pr_debug.process_command(command, data)
         elif "pr" in command:
             self.pr_commands.process_command(command, data)
         elif "system" in command:

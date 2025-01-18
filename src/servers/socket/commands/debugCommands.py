@@ -18,7 +18,7 @@ class DebugCommands(object):
                     users = self.users.get_users()
                     msg = f"{msg} users"
                 self.log.info(f"{msg} {users}")
-                return users
+                return {"users": users}
             case "debug-server":
                 self.log.info(f"processing data: {data}")
                 server_data = self.users.get_server_data(data['server'], data['admin'])
