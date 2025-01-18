@@ -1,6 +1,6 @@
 import os, time, yaml
 from contextlib import asynccontextmanager
-from CosmBot import CosmBot
+from cosmBot import CosmBot
     
 
 import logger 

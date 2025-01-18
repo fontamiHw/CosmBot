@@ -8,11 +8,13 @@ from db.pr import Pr
 from db.users import Users
 from servers.git.bitbucket import Git
 from servers.jenkins.jenkins import EventProcessor
-from servers.prPolling import PrPolling, TokenPolling
+from crone.prPolling import PrPolling
+from crone.tokenPolling import TokenPolling
 from users.commonUser.users import User
 from webex_bot.webex_bot import WebexBot
 from webexteamssdk import WebexTeamsAPI
 from servers.socket.clientSocket import ClientSocket
+from cosmCrone import CosmCrone
 
 import logger 
 
@@ -47,11 +49,11 @@ class CosmBot (object):
         self.main_thread.join()        
     
     def run(self):
-        ################  ONLY FOR TEST REMOVE  ###################
-        # will be started at start_servers method
-        self.pr_task = TokenPolling(self.user, self.config['servers']['token']['token_expiration_days'])
-        self.pr_task.start()
-        ################  ONLY FOR TEST REMOVE  ###################
+        self.crone = CosmCrone()
+        self.crone.run()
+        self.crone.start_task(TokenPolling(self.user, self.config['servers']['token']['token_expiration_days']))
+        pr_crone = PrPolling(self.user, self.config['pr'])
+        self.crone.start_task(pr_crone)
         
         jenkins_event = EventProcessor(self.user, self.prDb)
         self.client = ClientSocket(self.config['container_communication'], jenkins_event, self.user)
@@ -62,14 +64,8 @@ class CosmBot (object):
         self.git = Git(self.config['servers']['gitServer'], 
                        self.servers_db.query_server_data_by_user_name_and_type(self.user.get_admins()[0], Servers.GIT) )
         sanity = Sanity(self.bot, self.api, self.prDb, 
-                        self.git, jenkins_event, self.user)
-        self.start_servers(sanity)   
-        
-    def start_servers(self, sanity):    
-        self.pr_task = PrPolling(self.user, self.config['pr'], sanity)
-        self.pr_task.start()
-        self.pr_task = TokenPolling(self.user, self.config['servers']['token']['token_expiration_days'])
-        self.pr_task.start()
+                        self.git, jenkins_event, self.user)  
+        pr_crone.add_sanity(sanity)
         
     
     def create_db(self, config):
