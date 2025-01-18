@@ -70,4 +70,4 @@ class Administrator(BaseUser):
                     'token': service[4],
                     'expiration-date': service[5]
             })
-        return json.dumps(services_list)
+        return services_list

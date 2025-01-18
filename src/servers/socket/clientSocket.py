@@ -5,6 +5,7 @@ import json
 from servers.socket.commands.prCommands import PrCommands
 from servers.socket.commands.debugCommands import DebugCommands
 from servers.socket.commands.systemCommands import SystemCommands
+from users.userException import UserException
 
 class ClientSocket:
 
@@ -72,14 +73,19 @@ class ClientSocket:
         self.log.info(f"Received command: {command}") 
         answer = {}
         ret = False
-        if "debug" in command:
-            answer = self.pr_debug.process_command(command, data)
-        elif "pr" in command:
-            self.pr_commands.process_command(command, data)
-        elif "system" in command:
-            answer = self.system_debug.process_command(command, data)
-        else:
-            self.log.error(f"Unknown command received: {command}")
+        
+        try: 
+            if "debug" in command:
+                answer = self.pr_debug.process_command(command, data)
+            elif "pr" in command:
+                self.pr_commands.process_command(command, data)
+            elif "system" in command:
+                answer = self.system_debug.process_command(command, data)
+            else:
+                self.log.error(f"Unknown command received: {command}")
+                raise UserException(f"Unknown command received: {command}")
+        except UserException as e:
+            answer = {"error": e.get_message()}            
 
         if answer:
             ret = True

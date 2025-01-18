@@ -5,3 +5,6 @@ class UserException(Exception):
 
     def __str__(self):
         return f"CosmException: {self.message}"
+    
+    def get_message(self):
+        return self.message

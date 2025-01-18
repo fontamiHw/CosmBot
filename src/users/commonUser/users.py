@@ -113,9 +113,11 @@ class User(BaseUser):
             
         log.info(msg)
         
-    def get_server_data(self, server, admin): 
+    def get_server_data(self, server: str, admin: str): 
         if self.is_admin(admin):
            return self.admin.get_service_by_user(server, admin)
+        else :
+            raise UserException(f"{admin} is not and admin for {server}")
             
     def tokens_is_expiring(self, days):
         self.admin.tokens_is_expiring(days)
