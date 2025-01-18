@@ -4,8 +4,8 @@ FROM cosm-pythontool-base:latest
 
 # Install any needed packages specified in requirements.txt
 # If you don't have any additional packages, you can skip this step
-RUN pip install --no-cache-dir atlassian-python-api python-jenkins 
-RUN pip install --no-cache-dir webex-bot[proxy]
+RUN pip install --no-cache-dir --force-reinstall -v atlassian-python-api==3.41.16 python-jenkins==1.8.2 schedule==1.2.2
+RUN pip install --no-cache-dir --force-reinstall -v webex-bot[proxy]==0.5.2 webexteamssdk==1.6.1
 
 
 ENV APP_COSM_PATH="${APP_ROOT_PATH}/CosmBot"
@@ -36,7 +36,7 @@ RUN chmod +x ${APP_ROOT_PATH}/app-run.sh
 
 # Copy the current directory contents into the container at /app
 COPY app       ${APP_COSM_PATH}
-COPY host/resources ${TMP_RESOURCE_PATH}
+COPY host/resources ${TMP_RESOURCE_PATH} 
 
 # Start supervisor from the script
 CMD ["/app/run.sh"]
