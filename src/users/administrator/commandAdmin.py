@@ -24,12 +24,12 @@ class RegisterServer(Command):
     PROJECT="project"
     CALL_BACK="server_register_callback"
     
-    def __init__(self, users): 
+    def __init__(self, admin): 
         command="server config"
         super().__init__(
             command_keyword=command,
             help_message=f"{command}: config the git/jenkins server to the bot.",
-            chained_commands=[ServerRegisterCB(users)])
+            chained_commands=[ServerRegisterCB(admin)])
 
     def execute(self, message, attachment_actions, activity):
         text1 = TextBlock("Add new admin to the server.", weight=FontWeight.BOLDER, size=FontSize.LARGE)        
@@ -66,11 +66,11 @@ class RegisterServer(Command):
 
 
 class ServerRegisterCB(Command):
-    def __init__(self, users):
+    def __init__(self, admin):
         super().__init__(
             card_callback_keyword=RegisterServer.CALL_BACK,
             delete_previous_message=True)
-        self.users = users
+        self.admin = admin
         
     def execute(self, message, attachment_actions, activity):
         url = attachment_actions.inputs.get(RegisterServer.URL_ID)
@@ -91,9 +91,9 @@ class ServerRegisterCB(Command):
         if not user or not type:
             return quote_danger("server type and User are mandatory.")
         else:
-            if self.users.is_admin(user):
+            if self.admin.is_admin(user):
                 try:
-                    self.users.register_in_server(server, url, project, user, token, expiration_date)
+                    self.admin.register_in_server(server, url, project, user, token, expiration_date)
                 except CosmException as e:
                     msg = e.message
                     log.error(msg)

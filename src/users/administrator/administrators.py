@@ -1,7 +1,7 @@
 import logger
 from users.baseUser import BaseUser
 from users.administrator.commandAdmin import RegisterServer
-import json
+from cosmException import CosmException
 
 log = logger.getLogger("administrators")
 class Administrator(BaseUser):
@@ -71,3 +71,20 @@ class Administrator(BaseUser):
                     'expiration-date': service[5]
             })
         return services_list
+        
+    def register_in_server(self, server_name, url, project, user, token, token_expiration):    
+        msg=""
+        if self.servers_db.user_in_server(user, server_name) :
+            log.info(f"{user} already in {server_name}, update with new values")
+            if token_expiration and not token:
+                raise CosmException(f"Cannot change expiration days without a new token")
+            self.servers_db.update_server_user(user, url, project, token, server_name, token_expiration)
+            msg = f"{user} updated in {server_name} with url {url} and project {project}"
+        else:     
+            log.info(f"{user} not in {server_name}, add it")       
+            if not url or not server_name or not token:
+                raise CosmException(f"{user} has no server {server_name} configured. \n All the elements shall be compiled.")
+            self.servers_db.insert_server_user(user, url, project, token, server_name, token_expiration) 
+            msg = f"{user} added in {server_name} with url {url} and project {project}"
+            
+        log.info(msg)

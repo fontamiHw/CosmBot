@@ -2,8 +2,6 @@ import logger
 from db.servers import Servers
 from users.administrator.administrators import Administrator
 from users.commonUser.commandUsers import RegisterUser
-from webexteamssdk.api import people
-from cosmException import CosmException
 from users.userException import UserException
 from users.baseUser import BaseUser
 
@@ -65,11 +63,12 @@ class User(BaseUser):
         '''
         Starts the server if there is at least one admin and the config of the same
         '''
-        admin = self.get_admins()[0]
-        if admin:
-            data = self.servers_db.are_servers_configurated(admin)
-            return data
-        return False
+        admins = self.get_admins()
+        if not admins:
+            return False
+        data = self.servers_db.are_servers_configurated(admins[0])
+        return data
+        
         
     def get_jenkins_admin_data(self):
         """
@@ -83,35 +82,18 @@ class User(BaseUser):
             tuple: A tuple containing the admin's username, Jenkins URL, project, 
             and token.
         """
-        admin = self.admin.get_admins()[0]
-        if admin is None:
+        admins = self.admin.get_admins()
+        if admins is None:
             raise UserException("No Jenkins admin found")
-        data = self.servers_db.query_server_data_by_user_name_and_type(admin, Servers.JENKINS)
+        data = self.servers_db.query_server_data_by_user_name_and_type(admins[0], Servers.JENKINS)
         try:
             url = data[0][Servers.URL_POS]
             project = data[0][Servers.PROJECT_POS]
             token = data[0][Servers.TOKEN_POS]
         except IndexError:
-            raise UserException(f"No Jenkins server configured for {admin}")
+            raise UserException(f"No Jenkins server configured for {admins[0]}")
         
-        return admin, url, project, token
-        
-    def register_in_server(self, server_name, url, project, user, token, token_expiration):    
-        msg=""
-        if self.servers_db.user_in_server(user, server_name) :
-            log.info(f"{user} already in {server_name}, update with new values")
-            if token_expiration and not token:
-                raise CosmException(f"Cannot change expiration days without a new token")
-            self.servers_db.update_server_user(user, url, project, token, server_name, token_expiration)
-            msg = f"{user} updated in {server_name} with url {url} and project {project}"
-        else:     
-            log.info(f"{user} not in {server_name}, add it")       
-            if not url or not server_name or not token:
-                raise CosmException(f"{user} has no server {server_name} configured. \n All the elements shall be compiled.")
-            self.servers_db.insert_server_user(user, url, project, token, server_name, token_expiration) 
-            msg = f"{user} added in {server_name} with url {url} and project {project}"
-            
-        log.info(msg)
+        return admins[0], url, project, token
         
     def get_server_data(self, server: str, admin: str): 
         if self.is_admin(admin):
