@@ -38,7 +38,7 @@ container_communication:
   maxConnect: 1     # at the moment only one is forced
 
 logs:
-  webex-log: "Cosm-logfile.log"
+  webex-log: "CosmWebex-logfile.log"
   level: "DEBUG"
 
 webexBot:
@@ -46,7 +46,7 @@ webexBot:
    name: "COSM build"
    uniqueId: "Y2lzY29zcGFyazovL3VzL0FQUExJQ0FUSU9OL2YzMzk3MDAwLTUwN2MtNDg3Zi04ZDkyLWEyZDhiMjUwZThmYw"
    proxy:
-     required: False
+     required: True
      proxies:
        https: "http://proxy.esl.cisco.com:80"
        wss: "socks5://proxy.esl.cisco.com:1080"      

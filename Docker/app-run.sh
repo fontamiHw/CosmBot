@@ -7,7 +7,7 @@ mkdir -p ${RESOURCE_PATH}
 mkdir -p ${APP_PR_FILES}
 
 ########### PREPARE CONFIG IN MOUNTED VOLUME ###########
-echo "move resource files int the mounted path"
+echo "move resource files into the mounted path"
 filename="CosmWebex-config.yaml"
 # Variables for source and destination directories
 source_file=${TMP_RESOURCE_PATH}/${filename}
@@ -21,6 +21,8 @@ if [ ! -e "$destination_dir/$filename" ]; then
 else
     echo "File '$filename' already exists in '$destination_dir'. No action taken."
 fi
+
+
 echo
 echo "show mounted volume"
 ls -latR /app/host
@@ -38,4 +40,3 @@ cd ${APP_COSM_PATH}
 pwd
 echo "Cosm Webex Starting....."
 python3 main.py
-#python3 clientTest.py

@@ -97,11 +97,13 @@ class CosmBot (object):
             self.log.info(f" Proxies:{proxies}")
     
         # Create a Bot Object
+        self.log.info(f"Bot name: {self.config['webexBot']['name']}")
         bot = WebexBot(teams_bot_token=self.config['webexBot']['token'],
                    approved_domains=['cisco.com'],
                    bot_name=self.config['webexBot']['name'],
                    include_demo_commands=True,
                    proxies=proxies)
+        self.log.info(f"Bot Started !!!!!!!!!!!")
         return bot, api
     
     def stop(self):

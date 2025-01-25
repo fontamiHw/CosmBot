@@ -1,26 +1,17 @@
 #!/bin/bash
-HOST="../host"
+HOST="/data/COSM-bot"  # write here the path of mounted volume
 export APPLOGS="${HOST}/logs"
 export RESOURCE_PATH="${HOST}/resources"
 export APP_PR_FILES="${HOST}/pr"
 export SUPERVISOR_LOGS="${APPLOGS}/supervisord"
 
 mkdir -p ${HOST}
-rm -rf ${HOST}/*
 
 mkdir -p ${APPLOGS}
 mkdir -p ${RESOURCE_PATH}
 mkdir -p ${APP_PR_FILES}
 mkdir -p ${SUPERVISOR_LOGS}
 
-cp ../CosmWebex-config.yaml ${RESOURCE_PATH}/CosmWebex-config.yaml
 
-
-# Path to the YAML file
-yaml_file="${RESOURCE_PATH}/CosmWebex-config.yaml"
-
-# Use yq to extract the value of 'port'
-CONTAINERCOMM_PORT=$(yq eval '.container_communication.port' "$yaml_file")
-
-echo "docker run -d --network Cosm-net --hostname CosmBot -v /data/COSM-bot:/app/host --mount type=volume,src=CosmVolume,dst=/app/database --name CosmBot cosm-bot"
-      docker run -d --network Cosm-net --hostname CosmBot -v /data/COSM-bot:/app/host --mount type=volume,src=CosmVolume,dst=/app/database --name CosmBot cosm-bot
+echo "docker run -d --network Cosm-net --hostname CosmBot -v $HOST:/app/host --mount type=volume,src=CosmVolume,dst=/app/database --name CosmBot cosm-bot"
+      docker run -d --network Cosm-net --hostname CosmBot -v $HOST:/app/host --mount type=volume,src=CosmVolume,dst=/app/database --name CosmBot cosm-bot
