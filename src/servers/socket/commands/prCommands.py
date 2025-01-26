@@ -1,6 +1,7 @@
 
 import logger 
-class PrCommands(object):
+from servers.socket.commands.baseClass.baseCommands import BaseCommands
+class PrCommands(BaseCommands):
 
     def __init__(self, jenkins):
         self.jenkins_processor = jenkins

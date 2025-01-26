@@ -1,10 +1,12 @@
 import logger 
 from users.commonUser.users import User
 from users.userException import UserException
-class DebugCommands(object):
+from servers.socket.commands.baseClass.userBaseCommands import UserBaseCommands
 
-    def __init__(self, users: User):
-        self.users= users
+class DebugCommands(UserBaseCommands):
+
+    def __init__(self, users:User):
+        super().__init__(users)
         self.log = logger.getLogger("DebugCommands")  
         
     def process_command(self, command, data):     

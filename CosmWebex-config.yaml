@@ -5,7 +5,7 @@ start: True
 
 
 database:
-  directory: "/app/database"
+  directory: "/app/database" 
   users:    
     dbname: "users.db"
   servers:  

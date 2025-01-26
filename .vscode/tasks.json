@@ -5,7 +5,7 @@
     "tasks": [{
         "label": "copy-config-files",
         "command": "cp", // Could be any other shell command
-        "args": ["${workspaceFolder}/CosmWebex-debug-config.yaml", "${workspaceFolder}/host/resources/CosmWebex-config.yaml"],
+        "args": ["${workspaceFolder}/CosmWebex-debug-config.yaml", "/data/COSM-bot/resources/CosmWebex-config.yaml"],
         "type": "shell"
     }]
 }

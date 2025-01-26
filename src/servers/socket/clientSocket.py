@@ -5,28 +5,32 @@ import json
 from servers.socket.commands.prCommands import PrCommands
 from servers.socket.commands.debugCommands import DebugCommands
 from servers.socket.commands.systemCommands import SystemCommands
+from servers.socket.commands.databaseCommands import DatabaseCommands
 from users.userException import UserException
+from users.commonUser.users import User
 
 class ClientSocket:
 
-    def __init__(self, config, jenkins, user_db):
-        self.config = config
+    def __init__(self, config_comm, config_db, jenkins, users: User):
+        self.config_comm = config_comm
+       
         self.log = logger.getLogger("ClientSocket")  
         # Define the server address and port
-        self.host = config['host'] # Replace with the server's IP address
-        self.server_port = config['port']            # Replace with the server's port
+        self.host = self.config_comm['host'] # Replace with the server's IP address
+        self.server_port = self.config_comm['port']            # Replace with the server's port
         
         self.jenkins_processor = jenkins
         self.pr_commands = PrCommands(jenkins)
-        self.pr_debug = DebugCommands(user_db)
-        self.system_debug = SystemCommands(user_db)
+        self.pr_debug = DebugCommands(users)
+        self.system_debug = SystemCommands(users)
+        self.database_debug = DatabaseCommands(users, config_db)
 
         # Create a TCP/IP socket
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.main_thread = threading.Thread(target=self.read_data)
         self.main_stop_event = threading.Event()
         self.main_thread.start()
-        self.max_connection = config['maxRetryError']
+        self.max_connection = self.config_comm['maxRetryError']
 
     def read_data(self):
         connected = False
@@ -43,7 +47,7 @@ class ClientSocket:
                 if self.max_connection > 0:
                     self.max_connection -= 1
                 self.log.error(f"connection failed due to : {e}. \n retry again {self.max_connection} time.")
-                time.sleep(self.config['secErrorWait'])
+                time.sleep(self.config_comm['secErrorWait'])
                 if self.max_connection == 0:
                     # Close the socket
                     self.client_socket.close()
@@ -81,6 +85,8 @@ class ClientSocket:
                 self.pr_commands.process_command(command, data)
             elif "system" in command:
                 answer = self.system_debug.process_command(command, data)
+            elif "db" in command:
+                answer = self.database_debug.process_command(command, data)
             else:
                 self.log.error(f"Unknown command received: {command}")
                 raise UserException(f"Unknown command received: {command}")

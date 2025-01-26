@@ -1,7 +1,9 @@
 import logger 
-class SystemCommands(object):
+from users.commonUser.users import User
+from servers.socket.commands.baseClass.userBaseCommands import UserBaseCommands
+class SystemCommands(UserBaseCommands):
 
-    def __init__(self, users):
+    def __init__(self, users:User):
         self.users= users
         self.log = logger.getLogger("SystemCommands")  
         

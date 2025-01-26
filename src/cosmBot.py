@@ -61,7 +61,7 @@ class CosmBot (object):
         self.crone.start_task(pr_crone)
         
         jenkins_event = EventProcessor(self.user, self.prDb)
-        self.client = ClientSocket(self.config['container_communication'], jenkins_event, self.user)
+        self.client = ClientSocket(self.config['container_communication'], self.config['database'], jenkins_event, self.user)
         
         self.user.send_bot_started_message()
         while not self.user.is_system_ready():
