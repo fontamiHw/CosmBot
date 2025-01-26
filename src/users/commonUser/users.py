@@ -4,18 +4,26 @@ from users.administrator.administrators import Administrator
 from users.commonUser.commandUsers import RegisterUser
 from users.userException import UserException
 from users.baseUser import BaseUser
+from webexteamssdk import WebexTeamsAPI
+from webex_bot.webex_bot import WebexBot
+from db.servers import Servers
+from db.pr import Pr
+from db.users import Users
 
 log = logger.getLogger("users")
 
 class User(BaseUser):
 
-    def __init__(self, bot, api, users_db, pr_db, servers_db, token_config):
+    def __init__(self, bot:WebexBot, api: WebexTeamsAPI, users_db:Users, pr_db:Pr, servers_db:Servers, token_config):
         super().__init__(api, users_db, servers_db, bot)
         self.pr_db = pr_db
         self.admin = Administrator(api, users_db, servers_db, bot, token_config) 
-        self.add_command(RegisterUser(self))       
+        self.add_command(RegisterUser(self))   
         
-        for u in api.rooms.list():
+    def send_bot_started_message(self):    
+        rooms = self.api.rooms.list()
+        log.info(f'Bot started in rooms: {rooms}')
+        for u in rooms:
             ids = u.title
             people = self.api.people.list(displayName=ids)            
             for p in people:

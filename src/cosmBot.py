@@ -34,7 +34,7 @@ class CosmBot (object):
             os.makedirs(db_path)
             self.log.info(f"Directory created: {db_path}")
         usersDb, self.prDb, self.servers_db= self.create_db(self.config['database'])
-        self.bot, self.api = self.init_bot()
+        self.bot, self.api, self.proxie = self.init_bot()
         self.user = User(self.bot, self.api, usersDb, self.prDb, self.servers_db, self.config['servers']['token'])
 
         self.thread = threading.Thread(target=self.run)
@@ -49,6 +49,11 @@ class CosmBot (object):
         self.main_thread.join()        
     
     def run(self):
+        if self.proxie:
+            self.log.info("wait a wail because proxies")
+            time.sleep(20)
+            
+        self.log.info("delayed initialization started")
         self.crone = CosmCrone()
         self.crone.run()
         self.crone.start_task(TokenPolling(self.user, self.config['servers']['token']['token_expiration_days']))
@@ -58,6 +63,7 @@ class CosmBot (object):
         jenkins_event = EventProcessor(self.user, self.prDb)
         self.client = ClientSocket(self.config['container_communication'], jenkins_event, self.user)
         
+        self.user.send_bot_started_message()
         while not self.user.is_system_ready():
             time.sleep(20)
         # do not need all admins just take the first
@@ -66,6 +72,7 @@ class CosmBot (object):
         sanity = Sanity(self.bot, self.api, self.prDb, 
                         self.git, jenkins_event, self.user)  
         pr_crone.add_sanity(sanity)
+        self.log.info("delayed initialization completed !!!")
         
     
     def create_db(self, config):
@@ -103,8 +110,8 @@ class CosmBot (object):
                    bot_name=self.config['webexBot']['name'],
                    include_demo_commands=True,
                    proxies=proxies)
-        self.log.info(f"Bot Started !!!!!!!!!!!")
-        return bot, api
+        self.log.info(f"Bot created")
+        return bot, api, proxies
     
     def stop(self):
         self.stop_event.set()
