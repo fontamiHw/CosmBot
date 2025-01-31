@@ -32,7 +32,6 @@ class PrPolling(PollingBase):
                 data = self.sanity.collect_all_data_prs()  
                 self.total_pr = data['total-pr']
                 self.handle_prs(data)
-                self.user.inform_admin(self.sanity.get_total_pr_message())     
                 self.main_loop()
             else:
                 self.main_loop()

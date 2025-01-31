@@ -6,7 +6,6 @@ from users.userException import UserException
 from users.baseUser import BaseUser
 from webexteamssdk import WebexTeamsAPI
 from webex_bot.webex_bot import WebexBot
-from db.servers import Servers
 from db.pr import Pr
 from db.users import Users
 
@@ -16,6 +15,7 @@ class User(BaseUser):
 
     def __init__(self, bot:WebexBot, api: WebexTeamsAPI, users_db:Users, pr_db:Pr, servers_db:Servers, token_config):
         super().__init__(api, users_db, servers_db, bot)
+        log.info("User initialization")
         self.pr_db = pr_db
         self.admin = Administrator(api, users_db, servers_db, bot, token_config) 
         self.add_command(RegisterUser(self))   
@@ -34,7 +34,7 @@ class User(BaseUser):
                 else:
                     log.info(f'Bot has user: {people}')
                     
-            self.admin.notify_all("Bot restarted")
+            # self.admin.notify_all("Bot restarted")
                     
     def register_user(self, user_name, name, email, admin):
         is_admin = False

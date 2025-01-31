@@ -16,7 +16,7 @@ def getLogger(name="builderProcess"):
     handler.setLevel(config['logs']['level'])
 
     # Create a logging format
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter('%(asctime)s - %(filename)s[%(module)s(%(lineno)s)]: %(levelname)s  %(message)s')
     handler.setFormatter(formatter)
 
     # Add the handlers to the logger

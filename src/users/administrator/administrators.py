@@ -2,15 +2,19 @@ import logger
 from users.baseUser import BaseUser
 from users.administrator.commandAdmin import RegisterServer
 from cosmException import CosmException
+from db.users import Users
+
 
 log = logger.getLogger("administrators")
 class Administrator(BaseUser):
 
-    def __init__(self, api, users_db, servers_db, bot, token_config):
+    def __init__(self, api, users_db: Users, servers_db, bot, token_config):
         super().__init__(api, users_db, servers_db, bot)
-        self.admins = list()        
+        log.info("Administrator initialization")
         self.add_command(RegisterServer(self))
         self.refreshLinks = token_config['refreshLinks']
+        self.admins =  self.users_db.get_all_admins()
+        log.info(f"System starts with {len(self.admins)} admin")
                 
     def add_admin(self, admin):
         self.admins.append(admin)
@@ -19,7 +23,7 @@ class Administrator(BaseUser):
         self.admins.remove(admin)
         
     def is_admin(self, user_name):
-        return self.users_db.is_admin_by_userId(user_name)
+        return user_name in self.admins
                 
     def notify(self, account_name, msg):
         if (self.is_admin(account_name)):

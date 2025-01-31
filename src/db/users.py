@@ -51,11 +51,11 @@ class Users(DB):
         ''', (email,))
         self.conn.commit()
         
-    def is_admin_by_userId(self, userId):
-        result = self.take_one('''
-        SELECT admin FROM users WHERE userId=?
-        ''', (userId,))
-        return result[0] if result else False
+    # def is_admin_by_userId(self, userId):
+    #     result = self.take_one('''
+    #     SELECT admin FROM users WHERE userId=?
+    #     ''', (userId,))
+    #     return result[0] if result else False
 
     def is_admin_by_email(self, email):
         result = self.take_one('''
@@ -81,4 +81,15 @@ class Users(DB):
                 "admin": bool(row[3])
             })
         return users
+    
+    def get_all_admins(self):
+        log.info("reading all the configured admins")
+        cursor = self.execute('SELECT userId, admin FROM users')
+        ret = cursor.fetchall()
+        users = []
+        for row in ret:
+            if row[1] ==1:
+                users.append(row[0])
+        return users
+            
     

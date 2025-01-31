@@ -50,15 +50,11 @@ class CosmBot (object):
     
     def run(self):
         if self.proxie:
-            self.log.info("wait a wail because proxies")
-            time.sleep(20)
+            self.log.info("wait a wail because proxy")
+            time.sleep(10)
             
         self.log.info("delayed initialization started")
-        self.crone = CosmCrone()
-        self.crone.run()
-        self.crone.start_task(TokenPolling(self.user, self.config['servers']['token']['token_expiration_days']))
-        pr_crone = PrPolling(self.user, self.config['pr'])
-        self.crone.start_task(pr_crone)
+
         
         jenkins_event = EventProcessor(self.user, self.prDb)
         self.client = ClientSocket(self.config['container_communication'], self.config['database'], jenkins_event, self.user)
@@ -66,15 +62,37 @@ class CosmBot (object):
         self.user.send_bot_started_message()
         while not self.user.is_system_ready():
             time.sleep(20)
+            
+        pr_crone = self.start_crone_services()
+                
         # do not need all admins just take the first
         self.git = Git(self.config['servers']['gitServer'], 
-                       self.servers_db.query_server_data_by_user_name_and_type(self.user.get_admins()[0], Servers.GIT) )
+                       self.servers_db.query_server_data_by_user_name_and_type(self.user.get_admins()[0], Servers.GIT) )        
+        self.log.info("  Git intialized")
+        
+        
         sanity = Sanity(self.bot, self.api, self.prDb, 
                         self.git, jenkins_event, self.user)  
         pr_crone.add_sanity(sanity)
+        self.log.info("  Sanity intialized and added to Pr Crone")
+        
+        
         self.log.info("delayed initialization completed !!!")
         
-    
+    def start_crone_services(self):
+        self.log.info("  Starting crone services")
+        self.crone = CosmCrone()
+        self.crone.run()
+                
+        token_polling = TokenPolling(self.user, self.config['servers']['token']['token_expiration_days'])
+        self.crone.start_task(token_polling)
+        self.log.info("    Token Crone service started")
+        
+        pr_crone = PrPolling(self.user, self.config['pr'])
+        self.crone.start_task(pr_crone)
+        self.log.info("    Pr Crone service started")
+        return pr_crone
+        
     def create_db(self, config):
         # Get the directory from the configuration
         db_directory = config['directory']

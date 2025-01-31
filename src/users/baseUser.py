@@ -4,7 +4,6 @@ from webexteamssdk import WebexTeamsAPI
 from webex_bot.webex_bot import WebexBot
 from db.users import Users
 from db.servers import Servers
-from db.users import Users
 class BaseUser(object):
 
     def __init__(self, api: WebexTeamsAPI, users_db:Users, servers_db:Servers, bot:WebexBot):
