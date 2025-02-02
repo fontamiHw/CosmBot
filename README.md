@@ -81,17 +81,14 @@ Simply run the script `start.sh`
  - ***Network***
 It is required a Newtork bridge for the internal communication between the 2 containers that compose the whole tool.
 The network must be the same as the other container  ([COSM-fastapi](https://wwwin-github.cisco.com/mfontane/COSM-fastApi)) it is working with.
-
  - ***Host volume***
  The Host shall have the three directories described above already presents on disk.
  All the three directories **must be under the same root directory**
  write the path in the  ***HOST*** variable within the  `Docker/startCosmBoth.sh` script
-
  - ***Docker volume***
 An internal volume need to be created for the data base
-> docker volume create CosmVolume  
-
-### network
+> docker volume create CosmVolume
+ - ***network***
 docker network create --driver=bridge --subnet=172.20.0.0/24 --gateway 172.20.0.1 Cosm-net
 
 ###  Run
