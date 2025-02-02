@@ -1,12 +1,12 @@
 import logger
-from db.users import Users
+from db.users import UsersDb
 from crone.pollingBase import PollingBase
 
 
 log = logger.getLogger("TokenPolling")
 
 class TokenPolling(PollingBase):
-    def __init__(self, user: Users, expiration_days: int):
+    def __init__(self, user: UsersDb, expiration_days: int):
         super().__init__(expiration_days, self.run, unit_of_measure_interval='days')
         self.user = user
         self.expiration_days = expiration_days

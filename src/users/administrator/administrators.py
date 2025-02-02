@@ -2,13 +2,13 @@ import logger
 from users.baseUser import BaseUser
 from users.administrator.commandAdmin import RegisterServer
 from cosmException import CosmException
-from db.users import Users
+from db.users import UsersDb
 
 
 log = logger.getLogger("administrators")
 class Administrator(BaseUser):
 
-    def __init__(self, api, users_db: Users, servers_db, bot, token_config):
+    def __init__(self, api, users_db: UsersDb, servers_db, bot, token_config):
         super().__init__(api, users_db, servers_db, bot)
         log.info("Administrator initialization")
         self.add_command(RegisterServer(self))

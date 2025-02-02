@@ -25,7 +25,10 @@ class Sanity(object):
         
 
     def collect_all_data_prs(self):
+        log.debug("Collecting all data PRs from Git server")
         total_pr, open_pull_requests = self.git.get_open_pr()
+        
+        log.debug("Parsing the status of all Pr from Jenkins")
         jenkins_data = self.jenkins_event.process_all_event()
         self.new_dict = {"total-pr": total_pr, "open-pr": open_pull_requests, "jenkins": jenkins_data}
         return self.new_dict

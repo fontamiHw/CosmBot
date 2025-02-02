@@ -3,7 +3,7 @@ import logger
 
 
 log = logger.getLogger("users")
-class Users(DB):
+class UsersDb(DB):
     def __init__(self, file):
         super().__init__(file)
         # Create the users table
@@ -89,6 +89,7 @@ class Users(DB):
         users = []
         for row in ret:
             if row[1] ==1:
+                log.info(f"admin found {row[0]}")
                 users.append(row[0])
         return users
             

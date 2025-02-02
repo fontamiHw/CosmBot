@@ -7,13 +7,13 @@ from users.baseUser import BaseUser
 from webexteamssdk import WebexTeamsAPI
 from webex_bot.webex_bot import WebexBot
 from db.pr import Pr
-from db.users import Users
+from db.users import UsersDb
 
 log = logger.getLogger("users")
 
 class User(BaseUser):
 
-    def __init__(self, bot:WebexBot, api: WebexTeamsAPI, users_db:Users, pr_db:Pr, servers_db:Servers, token_config):
+    def __init__(self, bot:WebexBot, api: WebexTeamsAPI, users_db:UsersDb, pr_db:Pr, servers_db:Servers, token_config):
         super().__init__(api, users_db, servers_db, bot)
         log.info("User initialization")
         self.pr_db = pr_db
@@ -22,9 +22,9 @@ class User(BaseUser):
         
     def send_bot_started_message(self):    
         rooms = self.api.rooms.list()
-        log.info(f'Bot started in rooms: {rooms}')
         for u in rooms:
             ids = u.title
+            log.debug(f'Bot has in in rooms: {ids}')
             people = self.api.people.list(displayName=ids)            
             for p in people:
                 account_name = p.emails[0].split('@')[0]
@@ -34,7 +34,7 @@ class User(BaseUser):
                 else:
                     log.info(f'Bot has user: {people}')
                     
-            # self.admin.notify_all("Bot restarted")
+        log.info("End to inform all admins")
                     
     def register_user(self, user_name, name, email, admin):
         is_admin = False

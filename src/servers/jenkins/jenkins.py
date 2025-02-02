@@ -12,7 +12,10 @@ class EventProcessor(object):
     def __init__(self, users, pr_db):
         self.users = users
         self.pr_db = pr_db
-        self.start_jenkins_server()
+        
+    def initialize_jenkins(self):
+        self.jenkins_initialized = self.start_jenkins_server()
+        return self.jenkins_initialized
 
     def compose_url(self, url, path):
         if path:
@@ -28,6 +31,7 @@ class EventProcessor(object):
         except UserException as e:
             self.init=False    
             log.error(f"Error in jenkins server connection: {e}")   
+        return self.init
 
         
     def event_received(self, event):
