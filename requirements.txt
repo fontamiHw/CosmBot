@@ -1,3 +1,5 @@
-webex-bot [proxy]
-atlassian-python-api
-python-jenkins
+atlassian-python-api==3.41.16 
+python-jenkins==1.8.2 
+schedule==1.2.2
+webex-bot[proxy]==0.5.2 
+webexteamssdk==1.6.1

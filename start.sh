@@ -2,7 +2,7 @@
 
 export APPLOGS="./host/logs"
 export RESOURCE_PATH="./host/resources"
-export APP_PR_FILES="./host/pr"
+export APP_PR_FILES="./host/files"
 
 mkdir -p ${APPLOGS}
 mkdir -p ${RESOURCE_PATH}
