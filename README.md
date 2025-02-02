@@ -87,6 +87,10 @@ The network must be the same as the other container  ([COSM-fastapi](https://www
  All the three directories **must be under the same root directory**
  write the path in the  ***HOST*** variable within the  `Docker/startCosmBoth.sh` script
 
+ - ***Docker volume***
+An internal volume need to be created for the data base
+> docker volume create CosmVolume  
+
 ### network
 docker network create --driver=bridge --subnet=172.20.0.0/24 --gateway 172.20.0.1 Cosm-net
 

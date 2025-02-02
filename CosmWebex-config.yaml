@@ -4,6 +4,8 @@
 start: True 
 
 # The path and the name of the database files
+# in case of runnin in Container mode this shall be the same path where the internal volume will be mounted
+#  the same used in the docker run volume switch
 database:
   directory: "/app/database" 
   users:    
