@@ -1,52 +1,66 @@
 # Semaphore to decide when the app could start
-# Setting to True start imediately at the run of the containers, otherwise when
-#   it is changed in the host directory wher eis located this file
+# Setting to True start imediately at the run of the containers
+# When if False wait it changes manually done under the host directory 'resources'
 start: True 
 
-
+# The path and the name of the database files
 database:
   directory: "/app/database" 
   users:    
+    # The name of the file with the information of user registered
     dbname: "users.db"
   servers:  
+    # The name of the file with the information of servers Git and Jenkins
     dbname: "server.db"
   pr:  
+    # The name of the file with the registered pr useful in case of restart
     dbname: "pr.db"
 
+
+# The information for the Git and Jenkins server
 servers:
   token: 
-    token_expiration_days: 30     # days to send chat that token is going to expire
+    # days to send chat that token is going to expire
+    # It is unique for both the server so use the one has less days
+    token_expiration_days: 30     
     refreshLinks:
+      # the path to the link to refresh the token
+      #{user_name} will be replaced by the user name by the code 
+      # MUST be writen in this way if required by the link
       - name: "git"
         tokenLink: "https://bitbucket-eng-gpk1.cisco.com/bitbucket/plugins/servlet/access-tokens/users/{user_name}/manage"
       - name: "jenkins"
         tokenLink: "https://jenkins-gpk1.cisco.com/user/{user_name}/configure"
-  gitServer:    
-    timeout: 60
+  gitServer:   
+    # retry time in case of error of server connection
+    timeout: 60 #seconds
     project: "GAC"
 
 pr:
-  polling: 10
+  # The time the time is polled Jenkins to see if there are new PR
+  polling: 10 #second
 
-# Because this is an internal ip write the domain of the shared netowrk and let docker find the correct if 
-#    used by the other app
+# configuration of the communication between the 2 containers
 container_communication:
+  # in case of Container running us the docker Network name created (see README.md for reference)
+  # if running on local server coul be 127.0.0.1 or whatelse is  decide for the server
   host: "CosmFastApi.Cosm-net"
   port: 5000
   secErrorWait: 60
   maxRetryError: 3  # -1  means infinite retry
-  maxConnect: 1     # at the moment only one is forced
-
+  maxConnect: 1     # at the moment only one container coulk be connected
 logs:
   webex-log: "CosmWebex-logfile.log"
   level: "DEBUG"
 
+# configuration of the webex bot
 webexBot:
    token: "NGE1Mjg5NmItZmMyOS00YWI2LThiZTItNDgyZGZlZjA2Zjk2YzY4YTY2NjQtZmU4_PF84_1eb65fdf-9643-417f-9974-ad72cae0e10f"
    name: "COSM build"
    uniqueId: "Y2lzY29zcGFyazovL3VzL0FQUExJQ0FUSU9OL2YzMzk3MDAwLTUwN2MtNDg3Zi04ZDkyLWEyZDhiMjUwZThmYw"
+   #depend on wher ethe app is running could be required the proxy
    proxy:
-     required: True
+     required: True # if the proxy is required
      proxies:
        https: "http://proxy.esl.cisco.com:80"
        wss: "socks5://proxy.esl.cisco.com:1080"      

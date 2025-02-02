@@ -2,13 +2,15 @@
 # COSM-webex
 A WEBEX bot to automate the Pr and Sanity of COSM project
 
-  
+     
+
 
 ## Reference
 https://pypi.org/project/webex-bot/
 https://github.com/WebexCommunity/WebexPythonSDK/tree/release/v1/webexteamssdk
 
-  
+     
+
 
 ## API Documentation
 -  ### WebEx
@@ -26,6 +28,9 @@ COSM url references
 2. [All Jobs](https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/view/change-requests)
 3. [Single Job](https://engci-private-gpk.cisco.com/jenkins/svo/job/svo_multibranch/view/change-requests/job/<PR#>/)
 
+     
+
+
 ## Prerequisite
  1. Python 3.10 or above
  2. The log files will be write in a specific path that sahll be present
@@ -37,22 +42,39 @@ COSM url references
      
 
 
+## Configuration file
+The app use the `CosmWebex-config` file to change its beaviour.
+The first run of the app in any of the 2 modes will copy the default file in the `resources` directory and use that.
+Any other runs does not overwrite the config file.
+There are 2 ways to start then:
+
+ 1. Run the app, stop it, change the config, run again
+ 2. Copy the `CosmWebex-config` under the `resources` directory, edit and run
+
+Any element is described in the yaml file itself
+     
+
+
 ## Local Mode
 If the tools is running in a private server this are the Python library that are requested:
-
 > pip install -r requirements.txt
-> 
+
 ###  setUp
-Create the three directories described before and update that in the `start.sh` script    
->     NOTE: It is not importand where they are located.
->     They could be in different mount of the disk but is important that 
->          the path is correctly written in the above script
+ 1. Create the three directories described before and update that in the
+    `start.sh` script    
+    >     NOTE: It is not importand where they are located.
+    >     They could be in different mount of the disk but is important that 
+    >          the path is correctly written in the above script    
+2. Create the directory for the internal database.
+     The path is defined in the configuration file `CosmWebex-debug-config`,
+    on the element  `database: directory: "./database"`.
+    The startup script will copy this file under the `resources` directory described above changing its name in the one used by the code
  
 ###  Run
 Simply run the script `start.sh` 
 
-  
-  
+     
+
 
 ## Docker Mode
 ###  setUp
@@ -70,7 +92,8 @@ docker network create --driver=bridge --subnet=172.20.0.0/24 --gateway 172.20.0.
 
 ###  Run
 Simply run the `Docker/startCosmBoth.sh` script
-  
+
+     
 
 
 ## Docker Creation
